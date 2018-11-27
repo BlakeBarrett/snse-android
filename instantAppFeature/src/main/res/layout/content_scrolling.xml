@@ -7,7 +7,7 @@
         tools:showIn="@layout/activity_scrolling"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ScrollingActivity">
+        tools:context=".MainActivity">
 
     <LinearLayout
             android:orientation="vertical"
@@ -24,6 +24,7 @@
                     android:layout_margin="@dimen/text_margin"
                     android:text="@string/feeling"/>
             <RadioGroup
+                    android:id="@+id/feelingRadioGroup"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
@@ -33,7 +34,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/radioSad"
-                        android:layout_weight="1"/>
+                        android:layout_weight="3"/>
                 <RadioButton
                         android:text="😐"
                         android:layout_width="wrap_content"
@@ -45,7 +46,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/radioHappy"
-                        android:layout_weight="3"/>
+                        android:layout_weight="2"/>
             </RadioGroup>
         </LinearLayout>
 
@@ -78,7 +79,8 @@
                     android:id="@+id/colorButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/color"/>
+                    android:layout_gravity="center"
+                    android:text=""/>
         </LinearLayout>
 
         <LinearLayout
@@ -90,15 +92,18 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
                     android:text="@string/water"/>
-            <!--<android.support.v7.widget.SwitchCompat-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:id="@+id/waterSwitch"/>-->
+            <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/waterCheckBox"
+                    android:layout_margin="@dimen/text_margin"
+                    android:layout_gravity="center"
+                    android:text=""/>
         </LinearLayout>
 
         <LinearLayout
                 android:orientation="vertical"
+                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             <TextView
@@ -108,7 +113,8 @@
                     android:text="@string/elaborate"/>
             <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:inputType="textMultiLine"
                     android:id="@+id/elaborateText"/>
         </LinearLayout>
