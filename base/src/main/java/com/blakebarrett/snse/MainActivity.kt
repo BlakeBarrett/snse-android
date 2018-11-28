@@ -1,11 +1,10 @@
-package com.blakebarrett.snse.instantAppFeature
+package com.blakebarrett.snse
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.SeekBar
 import kotlinx.android.synthetic.main.activity_scrolling.*
 import kotlinx.android.synthetic.main.content_scrolling.*
 
@@ -16,13 +15,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_scrolling)
         setSupportActionBar(toolbar)
         fab.setOnClickListener { view ->
-            // TODO: Save values from entry form and reset.
             save()
             reset()
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, getString(R.string.thanks), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
-        setupListeners()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -44,22 +41,23 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun setupListeners() {
-        feelingRadioGroup.setOnCheckedChangeListener { feelingRadioGroup, checkedId ->
-
+    private fun getCurrentSentiment(): Sentiment {
+        val timestamp = System.currentTimeMillis() / 1000
+        val feeling = when(feelingRadioGroup.checkedRadioButtonId) {
+            R.id.radioSad -> getString(R.string.feelingSad)
+            R.id.radioMeh -> getString(R.string.feelingMeh)
+            R.id.radioHappy -> getString(R.string.feelingHappy)
+            else -> String()
         }
-//        intensityBar.setOnSeekBarChangeListener(this) // TODO: implement SeekBar.OnSeekBarChangeListener
-        colorButton.setOnClickListener {
-            showColorPicker()
-        }
-        waterCheckBox.setOnClickListener {
-
-        }
-        val elaborate = elaborateText.text
+        val intensity = intensityBar.progress
+        val water = waterCheckBox.isChecked
+        val elaborate = elaborateText.text.toString()
+        return Sentiment(timestamp = timestamp, feeling = feeling, intensity = intensity, color = "", water = water, elaborate = elaborate)
     }
 
     private fun save() {
-
+        val currentSentiment = getCurrentSentiment()
+        print(currentSentiment)
     }
 
     private fun reset() {

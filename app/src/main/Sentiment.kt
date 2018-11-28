@@ -1,1 +1,0 @@
-public data class Sentiment(var timestamp: Long, var feeling: String, var intensity: Int, var water: Boolean, var elaborate: String)
