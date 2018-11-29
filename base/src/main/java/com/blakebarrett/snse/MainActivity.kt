@@ -1,10 +1,12 @@
 package com.blakebarrett.snse
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
+import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.blakebarrett.snse.db.AppDatabase
+import com.blakebarrett.snse.db.Sentiment
 import kotlinx.android.synthetic.main.activity_scrolling.*
 import kotlinx.android.synthetic.main.content_scrolling.*
 
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, getString(R.string.thanks), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+        reset()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -52,16 +55,26 @@ class MainActivity : AppCompatActivity() {
         val intensity = intensityBar.progress
         val water = waterCheckBox.isChecked
         val elaborate = elaborateText.text.toString()
-        return Sentiment(timestamp = timestamp, feeling = feeling, intensity = intensity, color = "", water = water, elaborate = elaborate)
+        return Sentiment(
+            timestamp = timestamp,
+            feeling = feeling,
+            intensity = intensity,
+            color = "",
+            water = water,
+            elaborate = elaborate
+        )
     }
 
     private fun save() {
         val currentSentiment = getCurrentSentiment()
-        print(currentSentiment)
+        AppDatabase.getInstance(applicationContext).sentimentDao().insert(currentSentiment)
     }
 
     private fun reset() {
-
+        feelingRadioGroup.clearCheck()
+        waterCheckBox.isChecked = false
+        intensityBar.progress = 50
+        elaborateText.text.clear()
     }
 
     private fun showSettings() {
@@ -69,7 +82,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showHistory() {
-
+        // TODO: Lock behind biometric authentication.
     }
 
     private fun showColorPicker() {
