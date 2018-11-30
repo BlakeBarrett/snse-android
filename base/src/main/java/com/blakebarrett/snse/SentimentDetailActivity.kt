@@ -36,9 +36,9 @@ class SentimentDetailActivity : AppCompatActivity() {
             // using a fragment transaction.
             val fragment = SentimentDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putString(
+                    putLong(
                         SentimentDetailFragment.ARG_ITEM_ID,
-                        intent.getStringExtra(SentimentDetailFragment.ARG_ITEM_ID)
+                        intent.getLongExtra(SentimentDetailFragment.ARG_ITEM_ID, 0)
                     )
                 }
             }

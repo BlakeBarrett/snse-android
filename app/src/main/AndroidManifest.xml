@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.blakebarrett.snse.app"
+          package="com.blakebarrett.snse"
           xmlns:dist="http://schemas.android.com/apk/distribution"
           android:targetSandboxVersion="2">
     <dist:module dist:instant="true" />

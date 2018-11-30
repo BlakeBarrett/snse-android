@@ -1,5 +1,7 @@
 package com.blakebarrett.snse.db
 
+import android.text.format.DateFormat
+import android.text.format.DateUtils
 import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -13,6 +15,12 @@ public data class Sentiment (
     val feeling: String, val intensity: Int, val color: String, val water: Boolean, val elaborate: String) {
 
     fun prettyDate(): String {
-        return Date(timestamp * 1000).toString()
+        val epoch = timestamp * 1000
+        return DateUtils.formatSameDayTime(
+            epoch,
+            System.currentTimeMillis(),
+            java.text.DateFormat.SHORT,
+            java.text.DateFormat.SHORT
+        ).toString()
     }
 }
