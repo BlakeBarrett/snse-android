@@ -1,11 +1,9 @@
 package com.blakebarrett.snse.db
 
-import android.text.format.DateFormat
 import android.text.format.DateUtils
 import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
 
 @Entity
 public data class Sentiment (
