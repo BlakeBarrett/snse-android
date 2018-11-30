@@ -18,9 +18,6 @@ import kotlinx.android.synthetic.main.sentiment_detail.*
  */
 class SentimentDetailFragment : Fragment() {
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
     private var item: Sentiment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +26,7 @@ class SentimentDetailFragment : Fragment() {
         arguments?.let {
             if (it.containsKey(ARG_ITEM_ID)) {
                 val dao = AppDatabase.getInstance(this.requireContext().applicationContext).sentimentDao()
-                val timestamp = (activity?.intent?.extras?.get(ARG_ITEM_ID) ?: 0) as Long
+                val timestamp = (activity?.intent?.extras?.get(ARG_ITEM_ID) ?: it.get(ARG_ITEM_ID)) as Long
                 item = dao.findByTimestamp(timestamp)
                 activity?.toolbar_layout?.title = item?.prettyDate()
             }
@@ -40,8 +37,8 @@ class SentimentDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.sentiment_detail, container, false)
-        return rootView
+        super.onCreateView(inflater, container, savedInstanceState)
+        return inflater.inflate(R.layout.sentiment_detail, container, false)
     }
 
     override fun onResume() {
@@ -56,10 +53,6 @@ class SentimentDetailFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * The fragment argument representing the item ID that this fragment
-         * represents.
-         */
         const val ARG_ITEM_ID = "timestamp"
     }
 }
