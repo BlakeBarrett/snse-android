@@ -13,6 +13,6 @@ public data class Sentiment (
     val feeling: String, val intensity: Int, val color: String, val water: Boolean, val elaborate: String) {
 
     fun prettyDate(): String {
-        return Date(timestamp).toString()
+        return Date(timestamp * 1000).toString()
     }
 }

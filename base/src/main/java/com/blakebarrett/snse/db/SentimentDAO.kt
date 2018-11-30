@@ -19,4 +19,3 @@ public interface SentimentDAO {
     @Delete
     fun delete(sentiment: Sentiment)
 }
-

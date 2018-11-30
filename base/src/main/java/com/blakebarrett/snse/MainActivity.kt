@@ -1,12 +1,13 @@
 package com.blakebarrett.snse
 
+import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.blakebarrett.snse.db.AppDatabase
 import com.blakebarrett.snse.db.Sentiment
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_scrolling.*
 import kotlinx.android.synthetic.main.content_scrolling.*
 
@@ -77,15 +78,17 @@ class MainActivity : AppCompatActivity() {
         elaborateText.text.clear()
     }
 
+    private fun showColorPicker() {
+
+    }
+
     private fun showSettings() {
 
     }
 
     private fun showHistory() {
         // TODO: Lock behind biometric authentication.
-    }
-
-    private fun showColorPicker() {
-
+        val intent = Intent(this.applicationContext, SentimentListActivity::class.java)
+        startActivity(intent)
     }
 }
