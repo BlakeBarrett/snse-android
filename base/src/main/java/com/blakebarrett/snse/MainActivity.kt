@@ -1,12 +1,18 @@
 package com.blakebarrett.snse
 
+import android.annotation.TargetApi
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.hardware.biometrics.BiometricPrompt
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.blakebarrett.snse.db.AppDatabase
 import com.blakebarrett.snse.db.Sentiment
+import com.blakebarrett.snse.utils.BiometricUtils
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_scrolling.*
 import kotlinx.android.synthetic.main.content_scrolling.*
@@ -90,5 +96,32 @@ class MainActivity : AppCompatActivity() {
         // TODO: Lock behind biometric authentication.
         val intent = Intent(this.applicationContext, SentimentListActivity::class.java)
         startActivity(intent)
+    }
+
+    /** Biometric Authentication stuff **/
+    fun showDialog(context: Context): BiometricPrompt? {
+        if (BiometricUtils.weGood(this.applicationContext)) {
+            return displayBiometricPrompt(biometricCallback = null,
+                title = "",
+                subtitle = "",
+                description = "",
+                negativeButtonText = "Nope")
+        }
+        return null
+    }
+
+    @TargetApi(Build.VERSION_CODES.P)
+    fun displayBiometricPrompt(biometricCallback: BiometricPrompt.AuthenticationCallback?,
+                               title: String,
+                               subtitle: String,
+                               description: String,
+                               negativeButtonText: String): BiometricPrompt? {
+        return BiometricPrompt.Builder(this.applicationContext)
+            .setTitle(title)
+            .setSubtitle(subtitle)
+            .setDescription(description)
+            .setNegativeButton(negativeButtonText, this.mainExecutor,
+                DialogInterface.OnClickListener { dialogInterface, i -> biometricCallback?.onAuthenticationFailed() })
+            .build()
     }
 }
