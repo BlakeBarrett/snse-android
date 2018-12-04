@@ -2,11 +2,17 @@ package com.blakebarrett.snse.utils;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.hardware.biometrics.BiometricPrompt;
 import android.os.Build;
+import android.os.CancellationSignal;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
+import com.blakebarrett.snse.SentimentListActivity;
 
 /**
  *
@@ -74,11 +80,83 @@ public class BiometricUtils {
                 PackageManager.PERMISSION_GRANTED;
     }
 
-    public static boolean weGood(@NonNull final Context context) {
+
+    /*
+     * Here is where things go off the rails.
+     * The rest of the code was written by me (Blake Barrett).
+     * Everything above came from Blog posts.
+     *
+     */
+
+
+    public static boolean biometrySupported(@NonNull final Context context) {
         return isBiometricPromptEnabled() &&
                 isSdkVersionSupported() &&
                 isHardwareSupported(context) &&
                 isFingerprintAvailable(context) &&
                 isPermissionGranted(context);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.P)
+    public static void showPrompt(final Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+
+            final BiometricPrompt.AuthenticationCallback callback = new BiometricPrompt.AuthenticationCallback() {
+                @Override
+                public void onAuthenticationError(int errorCode, CharSequence errString) {
+                    super.onAuthenticationError(errorCode, errString);
+                }
+
+                @Override
+                public void onAuthenticationHelp(int helpCode, CharSequence helpString) {
+                    super.onAuthenticationHelp(helpCode, helpString);
+                }
+
+                @Override
+                public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
+                    super.onAuthenticationSucceeded(result);
+                    final Intent intent = new Intent(context.getApplicationContext(), SentimentListActivity.class);
+                    context.startActivity(intent);
+                }
+
+                @Override
+                public void onAuthenticationFailed() {
+                    super.onAuthenticationFailed();
+                }
+            };
+
+            final BiometricPrompt prompt = BiometricUtils.generatePrompt(
+                    context,
+                    "",
+                    "",
+                    "",
+                    "",
+                    callback);
+            final CancellationSignal cancellationSignal = new CancellationSignal();
+            prompt.authenticate(cancellationSignal, context.getMainExecutor(), callback);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.P)
+    public static BiometricPrompt generatePrompt(@NonNull final Context context,
+                                                 @NonNull final String title,
+                                                 @NonNull final String subtitle,
+                                                 @NonNull final String description,
+                                                 @NonNull final String negativeButtonText,
+                                                 @NonNull final BiometricPrompt.AuthenticationCallback biometricCallback) {
+        return new BiometricPrompt.Builder(context)
+                .setTitle(title)
+                .setSubtitle(subtitle)
+                .setDescription(description)
+                .setNegativeButton(
+                        negativeButtonText,
+                        context.getMainExecutor(),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                biometricCallback.onAuthenticationFailed();
+                            }
+                        }
+                ).build();
     }
 }

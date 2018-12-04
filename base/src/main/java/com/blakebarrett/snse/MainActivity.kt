@@ -100,40 +100,29 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
     }
 
     private fun showHistory() {
-        // TODO: Lock behind biometric authentication.
+        // Biometric Authentication stuff
+        if (BiometricUtils.biometrySupported(this.applicationContext)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                BiometricUtils.showPrompt(this.applicationContext)
+            }
+        } else if (BiometricUtils.isFingerprintAvailable(this.applicationContext)) {
+            // Show FingerPrint compat thing.
+            print("Has fingerprint registered!")
+        } else {
+            startHistoryActivity()
+        }
+    }
+
+    private fun startHistoryActivity() {
         val intent = Intent(this.applicationContext, SentimentListActivity::class.java)
         startActivity(intent)
     }
 
-    /** Biometric Authentication stuff **/
-    fun showDialog(context: Context): BiometricPrompt? {
-        if (BiometricUtils.weGood(this.applicationContext)) {
-            return displayBiometricPrompt(biometricCallback = null,
-                title = "",
-                subtitle = "",
-                description = "",
-                negativeButtonText = "Nope")
-        }
-        return null
-    }
-
-    @TargetApi(Build.VERSION_CODES.P)
-    fun displayBiometricPrompt(biometricCallback: BiometricPrompt.AuthenticationCallback?,
-                               title: String,
-                               subtitle: String,
-                               description: String,
-                               negativeButtonText: String): BiometricPrompt? {
-        return BiometricPrompt.Builder(this.applicationContext)
-            .setTitle(title)
-            .setSubtitle(subtitle)
-            .setDescription(description)
-            .setNegativeButton(negativeButtonText, this.mainExecutor,
-                DialogInterface.OnClickListener { dialogInterface, i -> biometricCallback?.onAuthenticationFailed() })
-            .build()
-    }
-
-
-    // Thanks!: https://github.com/danielnilsson9/color-picker-view
+    /** Color picker stuff
+     *
+     * Thanks!: https://github.com/danielnilsson9/color-picker-view
+     *
+     **/
     fun showColorPickerDialog() {
         val fragment = ColorPickerDialogFragment.newInstance(
             0,
