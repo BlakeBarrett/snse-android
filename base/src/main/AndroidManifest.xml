@@ -59,15 +59,6 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="com.blakebarrett.snse.SentimentListActivity"/>
         </activity>
-        <activity
-                android:name=".ColorPickerActivity"
-                android:label="@string/title_activity_color_picker"
-                android:parentActivityName=".MainActivity"
-                android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                    android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.blakebarrett.snse.MainActivity"/>
-        </activity>
     </application>
 
 </manifest>
