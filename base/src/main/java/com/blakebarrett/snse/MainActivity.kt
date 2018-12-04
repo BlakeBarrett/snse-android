@@ -4,6 +4,7 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
 import android.hardware.biometrics.BiometricPrompt
 import android.os.Build
 import android.os.Bundle
@@ -13,11 +14,15 @@ import androidx.appcompat.app.AppCompatActivity
 import com.blakebarrett.snse.db.AppDatabase
 import com.blakebarrett.snse.db.Sentiment
 import com.blakebarrett.snse.utils.BiometricUtils
+import com.blakebarrett.snse.utils.ColorUtils
+import com.github.danielnilsson9.colorpickerview.dialog.ColorPickerDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_scrolling.*
 import kotlinx.android.synthetic.main.content_scrolling.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerDialogListener {
+
+    var mSelectedColor = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +33,9 @@ class MainActivity : AppCompatActivity() {
             reset()
             Snackbar.make(view, getString(R.string.thanks), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
+        }
+        colorButton.setOnClickListener {
+            showColorPickerDialog()
         }
         reset()
     }
@@ -59,14 +67,17 @@ class MainActivity : AppCompatActivity() {
             R.id.radioHappy -> getString(R.string.feelingHappy)
             else -> String()
         }
+
         val intensity = intensityBar.progress
         val water = waterCheckBox.isChecked
         val elaborate = elaborateText.text.toString()
+        val color = ColorUtils.toHexString(mSelectedColor.toBigInteger().toByteArray())
+
         return Sentiment(
             timestamp = timestamp,
             feeling = feeling,
             intensity = intensity,
-            color = "",
+            color = color,
             water = water,
             elaborate = elaborate
         )
@@ -82,10 +93,6 @@ class MainActivity : AppCompatActivity() {
         waterCheckBox.isChecked = false
         intensityBar.progress = 50
         elaborateText.text.clear()
-    }
-
-    private fun showColorPicker() {
-
     }
 
     private fun showSettings() {
@@ -123,5 +130,26 @@ class MainActivity : AppCompatActivity() {
             .setNegativeButton(negativeButtonText, this.mainExecutor,
                 DialogInterface.OnClickListener { dialogInterface, i -> biometricCallback?.onAuthenticationFailed() })
             .build()
+    }
+
+
+    // Thanks!: https://github.com/danielnilsson9/color-picker-view
+    fun showColorPickerDialog() {
+        val fragment = ColorPickerDialogFragment.newInstance(
+            0,
+            null,
+            null,
+            Color.WHITE,
+            false)
+        fragment.show(
+            fragmentManager,
+            fragment.toString()
+        )
+    }
+
+    override fun onDialogDismissed(dialogId: Int) {}
+
+    override fun onColorSelected(dialogId: Int, color: Int) {
+        mSelectedColor = color
     }
 }
