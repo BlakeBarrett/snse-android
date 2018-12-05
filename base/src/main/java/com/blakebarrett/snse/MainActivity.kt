@@ -15,6 +15,7 @@ import com.blakebarrett.snse.db.AppDatabase
 import com.blakebarrett.snse.db.Sentiment
 import com.blakebarrett.snse.utils.BiometricUtils
 import com.blakebarrett.snse.utils.ColorUtils
+import com.blakebarrett.snse.utils.FingerprintUtils
 import com.github.danielnilsson9.colorpickerview.dialog.ColorPickerDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_scrolling.*
@@ -23,6 +24,10 @@ import kotlinx.android.synthetic.main.content_scrolling.*
 class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerDialogListener {
 
     var mSelectedColor = 0
+
+    companion object {
+        var authenticated = false
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,6 +105,10 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
     }
 
     private fun showHistory() {
+        if (MainActivity.authenticated) {
+            startHistoryActivity()
+            return
+        }
         // Biometric Authentication stuff
         if (BiometricUtils.biometrySupported(this.applicationContext)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -107,8 +116,10 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
             }
         } else if (BiometricUtils.isFingerprintAvailable(this.applicationContext)) {
             // Show FingerPrint compat thing.
-            print("Has fingerprint registered!")
+            val fingerprintUtil = FingerprintUtils()
+            fingerprintUtil.showPrompt(this.applicationContext)
         } else {
+            // if the user hasn't setup any biometry or a fingerprint, they don't get any security.
             startHistoryActivity()
         }
     }

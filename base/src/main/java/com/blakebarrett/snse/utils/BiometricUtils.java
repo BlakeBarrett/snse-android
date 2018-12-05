@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
+import com.blakebarrett.snse.MainActivity;
 import com.blakebarrett.snse.SentimentListActivity;
 
 /**
@@ -115,6 +116,7 @@ public class BiometricUtils {
                 @Override
                 public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
                     super.onAuthenticationSucceeded(result);
+                    MainActivity.Companion.setAuthenticated(true);
                     final Intent intent = new Intent(context.getApplicationContext(), SentimentListActivity.class);
                     context.startActivity(intent);
                 }
