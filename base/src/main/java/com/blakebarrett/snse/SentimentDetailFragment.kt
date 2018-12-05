@@ -49,6 +49,7 @@ class SentimentDetailFragment : Fragment() {
             intensityBar.progress = it.intensity
             waterCheckBox.isChecked = it.water
             elaborateText.text = it.elaborate
+            backgroundScrollView.setBackgroundColor(it.colorInt())
         }
     }
 

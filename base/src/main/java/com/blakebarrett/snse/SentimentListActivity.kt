@@ -114,6 +114,7 @@ class SentimentListActivity : AppCompatActivity() {
             val item = values[position]
             holder.idView.text = item.feeling
             holder.contentView.text = item.elaborate
+            holder.backgroundView.setBackgroundColor(item.colorInt())
 
             with(holder.itemView) {
                 tag = item
@@ -126,6 +127,7 @@ class SentimentListActivity : AppCompatActivity() {
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             val idView: TextView = view.id_text
             val contentView: TextView = view.content
+            val backgroundView: View = view.id_background
         }
     }
 }

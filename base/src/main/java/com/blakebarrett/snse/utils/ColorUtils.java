@@ -8,7 +8,7 @@ public class ColorUtils {
     }
 
     public static String toHexString(final byte[] bytes) {
-        final StringBuilder hexString = new StringBuilder();
+        final StringBuilder hexString = new StringBuilder("#");
 
         for (int i = 0; i < bytes.length; i++) {
             String hex = Integer.toHexString(0xFF & bytes[i]);

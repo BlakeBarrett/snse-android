@@ -20,10 +20,7 @@ import kotlinx.android.synthetic.main.content_scrolling.*
 class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerDialogListener {
 
     var mSelectedColor = 0
-
-    companion object {
-        var authenticated = false
-    }
+    var mAuthenticated = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -138,7 +135,7 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
                  * When the fingerprint does not match with any of the fingerprints registered on the device,
                  * then this callback will be triggered.
                  */
-                MainActivity.authenticated = false
+                mAuthenticated = false
             }
 
             override fun onAuthenticationCancelled() {
@@ -152,7 +149,7 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
                  * When the fingerprint is has been successfully matched with one of the fingerprints
                  * registered on the device, then this callback will be triggered.
                  */
-                MainActivity.authenticated = true
+                mAuthenticated = true
                 startHistoryActivity()
             }
 
@@ -174,7 +171,7 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
     }
 
     private fun showHistory() {
-        if (MainActivity.authenticated) {
+        if (mAuthenticated) {
             startHistoryActivity()
             return
         }

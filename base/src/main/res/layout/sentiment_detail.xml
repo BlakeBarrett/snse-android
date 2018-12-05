@@ -7,7 +7,8 @@
         tools:showIn="@layout/activity_sentiment_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".SentimentDetailFragment">
+        tools:context=".SentimentDetailFragment"
+        android:id="@+id/backgroundScrollView">
 
     <LinearLayout
             android:orientation="vertical"
