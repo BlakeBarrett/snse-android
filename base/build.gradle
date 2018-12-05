@@ -30,6 +30,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation "com.github.danielnilsson9:color-picker-view:1.4.0@aar"
+    implementation (group: 'com.an.biometric', name: 'biometric-auth', version: '0.1.0', ext: 'aar', classifier: '')
 
     def room_version = "2.0.0"
     implementation "androidx.room:room-runtime:$room_version"

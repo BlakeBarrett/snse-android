@@ -1,25 +1,21 @@
 package com.blakebarrett.snse
 
-import android.annotation.TargetApi
-import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
-import android.hardware.biometrics.BiometricPrompt
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.an.biometric.BiometricCallback
+import com.an.biometric.BiometricManager
 import com.blakebarrett.snse.db.AppDatabase
 import com.blakebarrett.snse.db.Sentiment
-import com.blakebarrett.snse.utils.BiometricUtils
 import com.blakebarrett.snse.utils.ColorUtils
-import com.blakebarrett.snse.utils.FingerprintUtils
 import com.github.danielnilsson9.colorpickerview.dialog.ColorPickerDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_scrolling.*
 import kotlinx.android.synthetic.main.content_scrolling.*
+
 
 class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerDialogListener {
 
@@ -104,24 +100,94 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
 
     }
 
+    private fun getBiometricCallback(): BiometricCallback {
+        return object: BiometricCallback {
+            override fun onSdkVersionNotSupported() {
+                /*
+                 *  Will be called if the device sdk version does not support Biometric authentication
+                 */
+            }
+
+            override fun onBiometricAuthenticationNotSupported() {
+                /*
+                 *  Will be called if the device does not contain any fingerprint sensors
+                 */
+            }
+
+            override fun onBiometricAuthenticationNotAvailable() {
+                /*
+                 *  The device does not have any biometrics registered in the device.
+                 */
+            }
+
+            override fun onBiometricAuthenticationPermissionNotGranted() {
+                /*
+                 *  android.permission.USE_BIOMETRIC permission is not granted to the app
+                 */
+            }
+
+            override fun onBiometricAuthenticationInternalError(error: String) {
+                /*
+                 *  This method is called if one of the fields such as the title, subtitle,
+                 * description or the negative button text is empty
+                 */
+            }
+
+            override fun onAuthenticationFailed() {
+                /*
+                 * When the fingerprint does not match with any of the fingerprints registered on the device,
+                 * then this callback will be triggered.
+                 */
+                MainActivity.authenticated = false
+            }
+
+            override fun onAuthenticationCancelled() {
+                /*
+                 * The authentication is cancelled by the user.
+                 */
+            }
+
+            override fun onAuthenticationSuccessful() {
+                /*
+                 * When the fingerprint is has been successfully matched with one of the fingerprints
+                 * registered on the device, then this callback will be triggered.
+                 */
+                MainActivity.authenticated = true
+                startHistoryActivity()
+            }
+
+            override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence) {
+                /*
+                 * This method is called when a non-fatal error has occurred during the authentication
+                 * process. The callback will be provided with an help code to identify the cause of the
+                 * error, along with a help message.
+                 */
+            }
+            override fun onAuthenticationError(errorCode: Int, errString: CharSequence ) {
+                /*
+                 * When an unrecoverable error has been encountered and the authentication process has
+                 * completed without success, then this callback will be triggered. The callback is provided
+                 * with an error code to identify the cause of the error, along with the error message.
+                 */
+            }
+        }
+    }
+
     private fun showHistory() {
         if (MainActivity.authenticated) {
             startHistoryActivity()
             return
         }
         // Biometric Authentication stuff
-        if (BiometricUtils.biometrySupported(this.applicationContext)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                BiometricUtils.showPrompt(this.applicationContext)
-            }
-        } else if (BiometricUtils.isFingerprintAvailable(this.applicationContext)) {
-            // Show FingerPrint compat thing.
-            val fingerprintUtil = FingerprintUtils()
-            fingerprintUtil.showPrompt(this.applicationContext)
-        } else {
-            // if the user hasn't setup any biometry or a fingerprint, they don't get any security.
-            startHistoryActivity()
-        }
+        // Shout-out to anitaa1990 for the SDK!
+        // https://github.com/anitaa1990/Biometric-Auth-Sample/
+        BiometricManager.BiometricBuilder(this@MainActivity)
+            .setTitle("Authenticate")
+            .setSubtitle("")
+            .setDescription("YOU are your key.")
+            .setNegativeButtonText("Cancel")
+            .build()
+            .authenticate(getBiometricCallback())
     }
 
     private fun startHistoryActivity() {
