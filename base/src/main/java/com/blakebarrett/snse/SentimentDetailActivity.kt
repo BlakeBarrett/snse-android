@@ -2,8 +2,11 @@ package com.blakebarrett.snse
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.blakebarrett.snse.db.AppDatabase
+import com.blakebarrett.snse.db.Sentiment
 import kotlinx.android.synthetic.main.activity_sentiment_detail.*
 
 /**
@@ -13,6 +16,8 @@ import kotlinx.android.synthetic.main.activity_sentiment_detail.*
  * in a [SentimentListActivity].
  */
 class SentimentDetailActivity : AppCompatActivity() {
+
+    lateinit var mSentiment: Sentiment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,11 +39,12 @@ class SentimentDetailActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
+            val itemId = intent.getLongExtra(SentimentDetailFragment.ARG_ITEM_ID, 0)
             val fragment = SentimentDetailFragment().apply {
                 arguments = Bundle().apply {
                     putLong(
                         SentimentDetailFragment.ARG_ITEM_ID,
-                        intent.getLongExtra(SentimentDetailFragment.ARG_ITEM_ID, 0)
+                        itemId
                     )
                 }
             }
@@ -46,10 +52,16 @@ class SentimentDetailActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .add(R.id.sentiment_detail_container, fragment)
                 .commit()
+
+            this.mSentiment = AppDatabase.getInstance(applicationContext).sentimentDao().findByTimestamp(itemId)
         }
     }
-
-    override fun onOptionsItemSelected(item: MenuItem) =
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_sentiment_detail, menu)
+        return true
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
                 // This ID represents the Home or Up button. In the case of this
@@ -61,6 +73,12 @@ class SentimentDetailActivity : AppCompatActivity() {
                 navigateUpTo(Intent(this, SentimentListActivity::class.java))
                 true
             }
+            R.id.action_delete -> {
+                AppDatabase.getInstance(applicationContext).sentimentDao().delete(mSentiment)
+                finish()
+            }
             else -> super.onOptionsItemSelected(item)
         }
+        return true
+    }
 }

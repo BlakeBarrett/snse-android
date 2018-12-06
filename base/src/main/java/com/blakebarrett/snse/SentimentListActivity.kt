@@ -31,6 +31,7 @@ class SentimentListActivity : AppCompatActivity() {
      * device.
      */
     private var twoPane: Boolean = false
+    lateinit private var sentiments: List<Sentiment>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +51,7 @@ class SentimentListActivity : AppCompatActivity() {
             twoPane = true
         }
 
+        sentiments = AppDatabase.getInstance(this.applicationContext).sentimentDao().getAll()
         setupRecyclerView(sentiment_list)
     }
 
@@ -68,8 +70,13 @@ class SentimentListActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
 
+    override fun onResume() {
+        super.onResume()
+        sentiments = AppDatabase.getInstance(this.applicationContext).sentimentDao().getAll()
+        sentiment_list.adapter?.notifyDataSetChanged()
+    }
+
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        val sentiments = AppDatabase.getInstance(this.applicationContext).sentimentDao().getAll()
         recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, sentiments , twoPane)
     }
 

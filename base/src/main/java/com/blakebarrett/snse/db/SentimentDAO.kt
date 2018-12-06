@@ -7,7 +7,7 @@ import androidx.room.Query
 
 @Dao
 public interface SentimentDAO {
-    @Query("SELECT * FROM Sentiment")
+    @Query("SELECT * FROM Sentiment ORDER BY timestamp DESC")
     fun getAll(): List<Sentiment>
 
     @Query("SELECT * FROM Sentiment WHERE timestamp LIKE :timestamp LIMIT 1")

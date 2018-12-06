@@ -1,3 +1,7 @@
+# OS Files
+.DS_Store
+thumbs.db
+
 # Built application files
 *.apk
 *.ap_

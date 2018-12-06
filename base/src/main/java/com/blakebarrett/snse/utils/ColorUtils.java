@@ -4,7 +4,15 @@ import android.graphics.Color;
 
 public class ColorUtils {
     public static int hexToInt(final String hex) {
-        return Color.parseColor(hex);
+        if (hex.indexOf("#") != 0) {
+            return Color.parseColor("#" + hex);
+        }
+        try {
+            return Color.parseColor(hex);
+        } catch(IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public static String toHexString(final byte[] bytes) {
