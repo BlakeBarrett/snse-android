@@ -15,6 +15,7 @@ import com.github.danielnilsson9.colorpickerview.dialog.ColorPickerDialogFragmen
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_scrolling.*
 import kotlinx.android.synthetic.main.content_scrolling.*
+import java.lang.RuntimeException
 
 
 class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerDialogListener {
@@ -175,16 +176,23 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
             startHistoryActivity()
             return
         }
-        // Biometric Authentication stuff
-        // Shout-out to anitaa1990 for the SDK!
-        // https://github.com/anitaa1990/Biometric-Auth-Sample/
-        BiometricManager.BiometricBuilder(this@MainActivity)
-            .setTitle("Authenticate")
-            .setSubtitle("")
-            .setDescription("YOU are your key.")
-            .setNegativeButtonText("Cancel")
-            .build()
-            .authenticate(getBiometricCallback())
+        try {
+            // Biometric Authentication stuff
+            // Shout-out to anitaa1990 for the SDK!
+            // https://github.com/anitaa1990/Biometric-Auth-Sample/
+            BiometricManager.BiometricBuilder(this@MainActivity)
+                .setTitle("Authenticate")
+                .setSubtitle("")
+                .setDescription("YOU are your key.")
+                .setNegativeButtonText("Cancel")
+                .build()
+                .authenticate(getBiometricCallback())
+        } catch(exception:RuntimeException) {
+            // IF the user hasn't setup any security, nothing we can do.
+            // You can lead a horse to water, but you can't make 'em drink.
+            mAuthenticated = true
+            startHistoryActivity()
+        }
     }
 
     private fun startHistoryActivity() {
