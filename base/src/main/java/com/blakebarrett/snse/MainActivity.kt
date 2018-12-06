@@ -15,7 +15,6 @@ import com.github.danielnilsson9.colorpickerview.dialog.ColorPickerDialogFragmen
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_scrolling.*
 import kotlinx.android.synthetic.main.content_scrolling.*
-import java.lang.RuntimeException
 
 
 class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerDialogListener {
@@ -60,7 +59,7 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
 
     private fun getCurrentSentiment(): Sentiment {
         val timestamp = System.currentTimeMillis() / 1000
-        val feeling = when(feelingRadioGroup.checkedRadioButtonId) {
+        val feeling = when (feelingRadioGroup.checkedRadioButtonId) {
             R.id.radioSad -> getString(R.string.feelingSad)
             R.id.radioMeh -> getString(R.string.feelingMeh)
             R.id.radioHappy -> getString(R.string.feelingHappy)
@@ -99,7 +98,7 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
     }
 
     private fun getBiometricCallback(): BiometricCallback {
-        return object: BiometricCallback {
+        return object : BiometricCallback {
             override fun onSdkVersionNotSupported() {
                 /*
                  *  Will be called if the device sdk version does not support Biometric authentication
@@ -161,7 +160,8 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
                  * error, along with a help message.
                  */
             }
-            override fun onAuthenticationError(errorCode: Int, errString: CharSequence ) {
+
+            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                 /*
                  * When an unrecoverable error has been encountered and the authentication process has
                  * completed without success, then this callback will be triggered. The callback is provided
@@ -187,7 +187,7 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
                 .setNegativeButtonText("Cancel")
                 .build()
                 .authenticate(getBiometricCallback())
-        } catch(exception:RuntimeException) {
+        } catch (exception: RuntimeException) {
             // IF the user hasn't setup any security, nothing we can do.
             // You can lead a horse to water, but you can't make 'em drink.
             mAuthenticated = true
@@ -211,7 +211,8 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
             null,
             null,
             Color.WHITE,
-            false)
+            false
+        )
         fragment.show(
             fragmentManager,
             fragment.toString()

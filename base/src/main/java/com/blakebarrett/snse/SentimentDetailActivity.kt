@@ -56,11 +56,13 @@ class SentimentDetailActivity : AppCompatActivity() {
             this.mSentiment = AppDatabase.getInstance(applicationContext).sentimentDao().findByTimestamp(itemId)
         }
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_sentiment_detail, menu)
         return true
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {

@@ -9,7 +9,7 @@ public class ColorUtils {
         }
         try {
             return Color.parseColor(hex);
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
         return 0;

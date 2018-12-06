@@ -77,7 +77,7 @@ class SentimentListActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, sentiments , twoPane)
+        recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, sentiments, twoPane)
     }
 
     class SimpleItemRecyclerViewAdapter(
