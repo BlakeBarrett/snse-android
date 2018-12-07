@@ -29,8 +29,7 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
         fab.setOnClickListener { view ->
             save()
             reset()
-            Snackbar.make(view, getString(R.string.thanks), Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            Snackbar.make(view, getString(R.string.thanks), Snackbar.LENGTH_LONG).show()
         }
         colorButton.setOnClickListener {
             showColorPickerDialog()
@@ -94,7 +93,8 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
     }
 
     private fun showSettings() {
-
+        val intent = Intent(this.applicationContext, SettingsActivity::class.java)
+        startActivity(intent)
     }
 
     private fun getBiometricCallback(): BiometricCallback {
