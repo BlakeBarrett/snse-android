@@ -11,6 +11,7 @@ import com.an.biometric.BiometricManager
 import com.blakebarrett.snse.db.AppDatabase
 import com.blakebarrett.snse.db.Sentiment
 import com.blakebarrett.snse.utils.ColorUtils
+import com.blakebarrett.snse.utils.NotificationUtils
 import com.github.danielnilsson9.colorpickerview.dialog.ColorPickerDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_scrolling.*
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
             showColorPickerDialog()
         }
         reset()
+        NotificationUtils.scheduleAlarm(this.applicationContext)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

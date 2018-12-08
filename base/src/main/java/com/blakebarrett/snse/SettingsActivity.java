@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.*;
@@ -148,6 +147,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class NotificationPreferenceFragment extends PreferenceFragment {
+
+        public static final String NOTIFICATION_FREQUENCY = "notification_frequency";
+        public static final String NOTIFICATION_REMINDER = "notifications_reminder_notifications";
+        public static final String NOTIFICATION_TWO_WEEK_REMINDER = "notifications_two_week_reminder_notification";
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -158,7 +162,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("notification_frequency"));
+            bindPreferenceSummaryToValue(findPreference(NOTIFICATION_FREQUENCY));
         }
 
         @Override
