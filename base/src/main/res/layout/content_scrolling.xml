@@ -37,18 +37,21 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/radioSad"
                         android:layout_weight="2"
-                        android:layout_gravity="right"/>
+                        android:textSize="24pt"
+                        android:layout_gravity="start"/>
                 <RadioButton
                         android:text="😐"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/radioMeh"
+                        android:textSize="24pt"
                         android:layout_weight="2"/>
                 <RadioButton
                         android:text="😊"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/radioHappy"
+                        android:textSize="24pt"
                         android:layout_weight="2"/>
             </RadioGroup>
         </LinearLayout>
@@ -87,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:src="@android:drawable/ic_menu_add"
-            />
+                    android:background="@drawable/colorpickerview__btn_background"/>
         </LinearLayout>
 
         <LinearLayout
@@ -114,14 +117,15 @@
                 android:layout_marginBottom="@dimen/text_margin"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="0dp">
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
                     android:text="@string/elaborate"/>
             <EditText
-                    android:layout_width="match_parent"
+                    android:focusedByDefault="false"
+                    android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:inputType="textMultiLine"
