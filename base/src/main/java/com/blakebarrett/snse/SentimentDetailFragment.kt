@@ -52,7 +52,7 @@ class SentimentDetailFragment : Fragment() {
             elaborateText.text = it.elaborate
 
             val color = it.colorInt()
-            backgroundScrollView.setBackgroundColor(color)
+            colorLinearLayout.setBackgroundColor(color)
             intensityBar.progressDrawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
             waterCheckBox.highlightColor = color
             waterCheckBox.setBackgroundColor(color)

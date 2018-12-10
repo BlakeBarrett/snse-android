@@ -257,7 +257,6 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
         intensityBar.progressDrawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
         intensityBar.thumb.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
         waterCheckBox.highlightColor = color
-        waterCheckBox.setBackgroundColor(color)
         fab.backgroundTintList = ColorStateList.valueOf(color)
     }
 }
