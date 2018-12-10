@@ -5,7 +5,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.RadioButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import com.an.biometric.BiometricCallback
 import com.an.biometric.BiometricManager
 import com.blakebarrett.snse.db.AppDatabase
@@ -37,6 +39,30 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
         }
         reset()
         NotificationUtils.scheduleAlarm(this.applicationContext)
+        applyStyling()
+    }
+
+    private fun applyStyling() {
+        val typeface = ResourcesCompat.getFont(this, R.font.signpainter)
+        collapsingToolbar.setCollapsedTitleTypeface(typeface)
+        collapsingToolbar.setExpandedTitleTypeface(typeface)
+
+        val accentColor = getColor(R.color.colorAccent)
+        val radios = arrayListOf<RadioButton>(radioSad, radioMeh, radioHappy)
+        for(radio in radios) {
+            radio.setOnClickListener { v ->
+                hideTheBackgroundOfAllViews(radios)
+                if (feelingRadioGroup.checkedRadioButtonId == v.id) {
+                    v.setBackgroundColor(accentColor)
+                }
+            }
+        }
+    }
+
+    private fun hideTheBackgroundOfAllViews(views: ArrayList<RadioButton>) {
+        for(v in views) {
+            v.setBackgroundColor(Color.TRANSPARENT)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -225,5 +251,6 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
 
     override fun onColorSelected(dialogId: Int, color: Int) {
         mSelectedColor = color
+        colorButton.setBackgroundColor(color)
     }
 }
