@@ -1,5 +1,6 @@
 package com.blakebarrett.snse
 
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -49,7 +50,12 @@ class SentimentDetailFragment : Fragment() {
             intensityBar.progress = it.intensity
             waterCheckBox.isChecked = it.water
             elaborateText.text = it.elaborate
-            backgroundScrollView.setBackgroundColor(it.colorInt())
+
+            val color = it.colorInt()
+            backgroundScrollView.setBackgroundColor(color)
+            intensityBar.progressDrawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
+            waterCheckBox.highlightColor = color
+            waterCheckBox.setBackgroundColor(color)
         }
     }
 

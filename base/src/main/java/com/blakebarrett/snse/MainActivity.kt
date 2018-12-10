@@ -1,7 +1,9 @@
 package com.blakebarrett.snse
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -47,10 +49,10 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
         collapsingToolbar.setCollapsedTitleTypeface(typeface)
         collapsingToolbar.setExpandedTitleTypeface(typeface)
 
-        val accentColor = getColor(R.color.colorAccent)
         val radios = arrayListOf<RadioButton>(radioSad, radioMeh, radioHappy)
         for(radio in radios) {
             radio.setOnClickListener { v ->
+                val accentColor = if (mSelectedColor != 0) { mSelectedColor } else { getColor(R.color.colorAccent) }
                 hideTheBackgroundOfAllViews(radios)
                 if (v.id == feelingRadioGroup.checkedRadioButtonId) {
                     v.setBackgroundColor(accentColor)
@@ -252,5 +254,10 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
     override fun onColorSelected(dialogId: Int, color: Int) {
         mSelectedColor = color
         colorButton.setBackgroundColor(color)
+        intensityBar.progressDrawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
+        intensityBar.thumb.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
+        waterCheckBox.highlightColor = color
+        waterCheckBox.setBackgroundColor(color)
+        fab.backgroundTintList = ColorStateList.valueOf(color)
     }
 }
