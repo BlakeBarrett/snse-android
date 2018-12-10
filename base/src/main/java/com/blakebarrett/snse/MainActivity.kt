@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
         for(radio in radios) {
             radio.setOnClickListener { v ->
                 hideTheBackgroundOfAllViews(radios)
-                if (feelingRadioGroup.checkedRadioButtonId == v.id) {
+                if (v.id == feelingRadioGroup.checkedRadioButtonId) {
                     v.setBackgroundColor(accentColor)
                 }
             }
