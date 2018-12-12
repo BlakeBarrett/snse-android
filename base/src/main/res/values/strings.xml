@@ -46,9 +46,9 @@
         <item>Never</item>
     </string-array>
     <string-array name="pref_notification_frequency_values">
-        <item>12</item>
-        <item>24</item>
-        <item>294</item>
+        <item>720000</item>
+        <item>1440000</item>
+        <item>10080000</item>
         <item>-1</item>
     </string-array>
 

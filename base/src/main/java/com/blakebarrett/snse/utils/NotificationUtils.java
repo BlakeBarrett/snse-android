@@ -3,12 +3,10 @@ package com.blakebarrett.snse.utils;
 import android.app.*;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import com.blakebarrett.snse.MainActivity;
@@ -16,8 +14,6 @@ import com.blakebarrett.snse.R;
 import com.blakebarrett.snse.SettingsActivity;
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 public class NotificationUtils {
 
@@ -39,17 +35,17 @@ public class NotificationUtils {
         }
     }
 
-    public static void scheduleAlarm(final Context context, final Long when) {
-
-        final SharedPreferences manager = PreferenceManager.getDefaultSharedPreferences(context);
-        final String notificationSchedule = manager.getString(SettingsActivity.NotificationPreferenceFragment.NOTIFICATION_FREQUENCY, "");
-        final Boolean notificationsEnabled = manager.getBoolean(SettingsActivity.NotificationPreferenceFragment.NOTIFICATION_REMINDER, false);
+    public static void scheduleAlarm(final Context context) {
+        final PreferenceUtil manager = PreferenceUtil.getInstance(context);
+        final Boolean notificationsEnabled = manager.getBool(SettingsActivity.NotificationPreferenceFragment.NOTIFICATION_REMINDER);
+        final String notificationSchedule = manager.getString(SettingsActivity.NotificationPreferenceFragment.NOTIFICATION_FREQUENCY);
+        final long interval = Long.parseLong((notificationSchedule.equals("")) ? "0" : notificationSchedule);
         final AlarmManager alarmManager = getAlarmManager(context);
 
         final Intent intent = new Intent(context.getApplicationContext(), NotificationsBroadcastReceiver.class);
         final PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        if (!notificationsEnabled) {
+        if (!notificationsEnabled || (interval <= 0)) {
             if (alarmIntent != null) {
                 alarmIntent.cancel();
             }
@@ -57,37 +53,18 @@ public class NotificationUtils {
         }
 
         final Calendar calendar = Calendar.getInstance();
-        if (when <= 0) {
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 17);
-            calendar.set(Calendar.MINUTE, 00);
-        } else {
-            calendar.setTimeInMillis(when);
-            alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,
-                    calendar.getTimeInMillis(),
-                    alarmIntent);
-            return;
-        }
-
-        final String[] intervalValues = context.getResources().getStringArray(R.array.pref_notification_frequency_values);
-        final Map<String, Long> intervals = new HashMap<>();
-        intervals.put(intervalValues[0], AlarmManager.INTERVAL_HALF_DAY);
-        intervals.put(intervalValues[1], AlarmManager.INTERVAL_DAY);
-        intervals.put(intervalValues[2], AlarmManager.INTERVAL_DAY * 7);
-        intervals.put(intervalValues[3], (long) -1.0);
-        intervals.put("", (long) -1.0);
-
-        final Long interval = intervals.get(notificationSchedule);
-        if (interval < 0) {
-            return;
-        }
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 17);
+        calendar.set(Calendar.MINUTE, 00);
 
         // With setInexactRepeating(), you have to use one of the AlarmManager interval
         // constants--in this case, AlarmManager.INTERVAL_DAY.
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,
-                when,
+                calendar.getTimeInMillis(),
                 interval,
                 alarmIntent);
+
+        manager.setPreferencesClean();
     }
 
     public static void showNotification(final Context context) {

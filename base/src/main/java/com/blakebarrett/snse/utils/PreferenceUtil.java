@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 
 public class PreferenceUtil {
 
+    public static final String PREFERENCES_CHANGED = "the preferences have been changed at";
+
     private SharedPreferences sharedPreferences;
     private static class Blocker {}
 
@@ -39,5 +41,17 @@ public class PreferenceUtil {
         final SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putLong(key, value);
         editor.commit();
+    }
+
+    public boolean getPreferencesDirty() {
+        return getLong(PREFERENCES_CHANGED) > 0;
+    }
+
+    public void setPreferencesDirty() {
+        savePref(PREFERENCES_CHANGED, System.currentTimeMillis());
+    }
+
+    public void setPreferencesClean() {
+        savePref(PREFERENCES_CHANGED, (long) 0);
     }
 }

@@ -10,6 +10,8 @@ import android.preference.*;
 import android.view.MenuItem;
 import androidx.appcompat.app.ActionBar;
 import androidx.core.app.NavUtils;
+import com.blakebarrett.snse.utils.NotificationUtils;
+import com.blakebarrett.snse.utils.PreferenceUtil;
 
 import java.util.List;
 
@@ -163,6 +165,19 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // updated to reflect the new value, per the Android Design
             // guidelines.
             bindPreferenceSummaryToValue(findPreference(NOTIFICATION_FREQUENCY));
+
+            // So we can know to update the notification alarm manager.
+            final Preference.OnPreferenceChangeListener listener = new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(final Preference preference, final Object newValue) {
+                    final Context context = preference.getContext().getApplicationContext();
+                    PreferenceUtil.getInstance(context).setPreferencesDirty();
+                    NotificationUtils.scheduleAlarm(context);
+                    return true;
+                }
+            };
+            findPreference(NOTIFICATION_REMINDER).setOnPreferenceChangeListener(listener);
+            findPreference(NOTIFICATION_TWO_WEEK_REMINDER).setOnPreferenceChangeListener(listener);
         }
 
         @Override

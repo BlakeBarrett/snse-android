@@ -16,6 +16,7 @@ import com.blakebarrett.snse.db.AppDatabase
 import com.blakebarrett.snse.db.Sentiment
 import com.blakebarrett.snse.utils.ColorUtils
 import com.blakebarrett.snse.utils.NotificationUtils
+import com.blakebarrett.snse.utils.PreferenceUtil
 import com.github.danielnilsson9.colorpickerview.dialog.ColorPickerDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_scrolling.*
@@ -69,8 +70,23 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
         }
     }
 
+    private fun updateAllBackgroundColors(color: Int) {
+        updateFeelingBackgroundColors(color)
+        intensityBar.progressDrawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
+        intensityBar.thumb.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
+        fab.backgroundTintList = ColorStateList.valueOf(color)
+
+        // These all need their accent color changed, not background.
+//        colorButton.setBackgroundColor(color)
+//        waterCheckBox.highlightColor = color
+//        elaborateText.highlightColor = color
+    }
+
     private fun registerNotifications() {
         NotificationUtils.applicationDidLaunch(this)
+        if (PreferenceUtil.getInstance(this).preferencesDirty) {
+            NotificationUtils.scheduleAlarm(this)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -126,6 +142,9 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
         waterCheckBox.isChecked = false
         intensityBar.progress = 50
         elaborateText.text.clear()
+        val defaultAccentColor = getColor(R.color.colorAccent)
+        updateAllBackgroundColors(defaultAccentColor)
+        mSelectedColor = 0
     }
 
     private fun showSettings() {
@@ -259,12 +278,6 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
 
     override fun onColorSelected(dialogId: Int, color: Int) {
         mSelectedColor = color
-        updateFeelingBackgroundColors(color)
-        colorButton.setBackgroundColor(color)
-        intensityBar.progressDrawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
-        intensityBar.thumb.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
-        fab.backgroundTintList = ColorStateList.valueOf(color)
-//        waterCheckBox.highlightColor = color
-//        elaborateText.highlightColor = color
+        updateAllBackgroundColors(color)
     }
 }
