@@ -40,8 +40,8 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
             showColorPickerDialog()
         }
         reset()
-        NotificationUtils.scheduleAlarm(this.applicationContext)
         applyStyling()
+        registerNotifications()
     }
 
     private fun applyStyling() {
@@ -53,18 +53,24 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
         for(radio in radios) {
             radio.setOnClickListener { v ->
                 val accentColor = if (mSelectedColor != 0) { mSelectedColor } else { getColor(R.color.colorAccent) }
-                hideTheBackgroundOfAllViews(radios)
-                if (v.id == feelingRadioGroup.checkedRadioButtonId) {
-                    v.setBackgroundColor(accentColor)
-                }
+                updateFeelingBackgroundColors(accentColor)
             }
         }
     }
 
-    private fun hideTheBackgroundOfAllViews(views: ArrayList<RadioButton>) {
-        for(v in views) {
-            v.setBackgroundColor(Color.TRANSPARENT)
+    private fun updateFeelingBackgroundColors(color: Int) {
+        val radios = arrayListOf<RadioButton>(radioSad, radioMeh, radioHappy)
+        for(v in radios) {
+            if (v.id == feelingRadioGroup.checkedRadioButtonId) {
+                v.setBackgroundColor(color)
+            } else {
+                v.setBackgroundColor(Color.TRANSPARENT)
+            }
         }
+    }
+
+    private fun registerNotifications() {
+        NotificationUtils.applicationDidLaunch(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -253,10 +259,12 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
 
     override fun onColorSelected(dialogId: Int, color: Int) {
         mSelectedColor = color
+        updateFeelingBackgroundColors(color)
         colorButton.setBackgroundColor(color)
         intensityBar.progressDrawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
         intensityBar.thumb.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
-        waterCheckBox.highlightColor = color
         fab.backgroundTintList = ColorStateList.valueOf(color)
+//        waterCheckBox.highlightColor = color
+//        elaborateText.highlightColor = color
     }
 }

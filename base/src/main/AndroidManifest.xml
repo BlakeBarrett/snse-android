@@ -9,6 +9,9 @@
             android:name="android.permission.USE_FINGERPRINT"
             android:required="false"/>
 
+    <uses-permission
+            android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -68,13 +71,18 @@
                     android:value="com.blakebarrett.snse.MainActivity"/>
         </activity>
 
-        <receiver android:name=".utils.NotificationsBroadcastReceiver"
-                  android:enabled="true">
+        <receiver
+                android:name=".utils.NotificationsBroadcastReceiver"
+                android:enabled="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
         </receiver>
-    </application>
 
+        <service
+                android:name=".utils.NotificationService"
+                android:enabled="true">
+        </service>
+    </application>
 
 </manifest>
