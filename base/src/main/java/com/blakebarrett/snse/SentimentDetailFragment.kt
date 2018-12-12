@@ -54,8 +54,12 @@ class SentimentDetailFragment : Fragment() {
             val color = it.colorInt()
             colorLinearLayout.setBackgroundColor(color)
             intensityBar.progressDrawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
-            waterCheckBox.highlightColor = color
-            waterCheckBox.setBackgroundColor(color)
+
+            // These all need their accent color changed, not background.
+//        colorButton.setBackgroundColor(color)
+//        waterCheckBox.highlightColor = color
+//        elaborateText.highlightColor = color
+
         }
     }
 
