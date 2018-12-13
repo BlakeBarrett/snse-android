@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feeling">你感觉怎么样?</string>
+    <string name="color">颜色</string>
+    <string name="water">水</string>
+    <string name="thanks">谢谢你的分享。</string>
+    <string name="elaborate">" 注意详细说明？"</string>
+    <string name="action_history">历史</string>
+    <string name="action_delete">删除</string>
+    <string name="action_settings">设置</string>
+    <string name="cancel">取消</string>
+    <string name="pref_header_notifications">通知</string>
+    <string name="pref_title_daily_notifications">提醒通知</string>
+    <string name="authenticate">" 认证"</string>
+    <string name="pref_title_notification_frequency">通知频率</string>
+    <string name="pref_title_two_week_reminder_notification">" 两周提醒"</string>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feeling">Wie fühlst du dich?</string>
+    <string name="color">Farbe</string>
+    <string name="water">Haben Sie kürzlich Wasser getrunken?</string>
+    <string name="elaborate">Interessieren Sie sich für die Ausarbeitung?</string>
+    <string name="thanks">"Ich danke Ihnen für das Teilen."</string>
+    <string name="action_history">Geschichte</string>
+    <string name="action_delete">Löschen</string>
+    <string name="action_settings">die Einstellungen</string>
+    <string name="cancel">Stornieren</string>
+    <string name="pref_header_notifications">Benachrichtigungen</string>
+    <string name="pref_title_daily_notifications">Erinnerungsbenachrichtigungen</string>
+    <string name="pref_title_two_week_reminder_notification">Zweiwöchige Erinnerung</string>
+    <string name="pref_title_notification_frequency">Benachrichtigungshäufigkeit</string>
+    <string name="authenticate">Authentifizieren</string>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="authenticate">認証する</string>
+    <string name="feeling">ご気分はいかがですか？</string>
+    <string name="color">色</string>
+    <string name="water">あなたは最近水を飲んだことがありますか？</string>
+    <string name="elaborate">詳しく教える？</string>
+    <string name="thanks">共有してくれてありがとう。</string>
+    <string name="action_history">" 歴史"</string>
+    <string name="action_delete">削除</string>
+    <string name="action_settings">設定</string>
+    <string name="cancel">キャンセル</string>
+    <string name="pref_title_daily_notifications">リマインダーの通知</string>
+    <string name="pref_header_notifications">" 通知"</string>
+    <string name="pref_title_two_week_reminder_notification">2週間のリマインダ</string>
+    <string name="pref_title_notification_frequency">" 通知頻度"</string>
+</resources>
