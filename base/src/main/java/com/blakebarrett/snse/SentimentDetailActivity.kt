@@ -71,13 +71,13 @@ class SentimentDetailActivity : AppCompatActivity() {
                 // more details, see the Navigation pattern on Android Design:
                 //
                 // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-
-                navigateUpTo(Intent(this, SentimentListActivity::class.java))
+                finish()
                 true
             }
             R.id.action_delete -> {
                 AppDatabase.getInstance(applicationContext).sentimentDao().delete(mSentiment)
                 finish()
+                true
             }
             else -> super.onOptionsItemSelected(item)
         }
