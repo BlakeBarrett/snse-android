@@ -19,24 +19,22 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <meta-data
-                android:name="aia-compat-api-min-version"
-                android:value="1"/>
 
         <activity
                 android:name=".MainActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter android:order="1">
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <category android:name="android.intent.category.DEFAULT"/>
 
                 <data
-                        android:host="blakebarrett.com"
-                        android:pathPattern="/snse/new/.*"
-                        android:scheme="https"/>
+                        android:host="snse"
+                        android:pathPattern="/new/.*"
+                        android:scheme="snse"/>
+
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
