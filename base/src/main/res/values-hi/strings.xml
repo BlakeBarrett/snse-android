@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feeling">आप कैसा महसूस कर रहे हैं?</string>
+    <string name="color">रंग</string>
+    <string name="water">क्या आपने हाल ही में पानी पी लिया है?</string>
+    <string name="elaborate">विस्तृत करने के लिए परवाह?</string>
+    <string name="thanks">साझा करने के लिए धन्यवाद।</string>
+    <string name="action_history">इतिहास</string>
+    <string name="action_delete">हटाना</string>
+    <string name="action_settings">सेटिंग्स</string>
+    <string name="cancel">रद्द करना</string>
+    <string name="pref_header_notifications">सूचनाएं</string>
+    <string name="pref_title_daily_notifications">अनुस्मारक अधिसूचनाएं</string>
+    <string name="pref_title_two_week_reminder_notification">दो सप्ताह अनुस्मारक</string>
+    <string name="pref_title_notification_frequency">अधिसूचना आवृत्ति</string>
+    <string name="authenticate">प्रमाणित करें</string>
+</resources>

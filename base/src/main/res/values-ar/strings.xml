@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="feeling">كيف تشعر؟</string>
+    <string name="color">اللون</string>
+    <string name="water">هل شربت الماء مؤخرا؟</string>
+    <string name="elaborate">مهتم بالتوسع؟</string>
+    <string name="thanks">شكرا لك للمشاركة.</string>
+    <string name="action_history">التاريخ</string>
+    <string name="action_delete">حذف</string>
+    <string name="action_settings">الإعدادات</string>
+    <string name="cancel">إلغاء</string>
+    <string name="pref_header_notifications">إخطارات</string>
+    <string name="pref_title_daily_notifications">إشعارات التذكير</string>
+    <string name="pref_title_two_week_reminder_notification">تذكير لمدة أسبوعين</string>
+    <string name="pref_title_notification_frequency">تردد الإخطار</string>
+    <string name="authenticate">مصادقة</string>
+</resources>
