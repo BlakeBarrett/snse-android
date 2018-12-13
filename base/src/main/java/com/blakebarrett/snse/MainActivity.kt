@@ -240,10 +240,10 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
             // Shout-out to anitaa1990 for the SDK!
             // https://github.com/anitaa1990/Biometric-Auth-Sample/
             BiometricManager.BiometricBuilder(this@MainActivity)
-                .setTitle("Authenticate")
-                .setSubtitle("")
-                .setDescription("YOU are your key.")
-                .setNegativeButtonText("Cancel")
+                .setTitle(getString(R.string.authenticate))
+                .setSubtitle(getString(R.string.auth_subtitle))
+                .setDescription(getString(R.string.auth_description))
+                .setNegativeButtonText(getString(R.string.cancel))
                 .build()
                 .authenticate(getBiometricCallback())
         } catch (exception: RuntimeException) {

@@ -30,7 +30,11 @@
     <string name="title_sentiment_detail">Sentiment Detail</string>
     <string name="title_activity_settings">Settings</string>
 
-    <!-- Strings related to Settings -->
+    <string name="cancel">Cancel</string>
+    <!-- Strings related to History -->
+    <string name="authenticate">Authenticate</string>
+    <string name="auth_subtitle"></string>
+    <string name="auth_description"></string>
 
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
