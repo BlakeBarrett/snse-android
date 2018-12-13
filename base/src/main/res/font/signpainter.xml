@@ -3,5 +3,5 @@
     <font
             android:fontStyle="normal"
             android:fontWeight="400"
-            android:font="@font/signpainter_housescript" />
+            android:font="@font/signpainter_housescript"/>
 </font-family>

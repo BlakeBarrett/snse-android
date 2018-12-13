@@ -8,10 +8,15 @@ public class PreferenceUtil {
     public static final String PREFERENCES_CHANGED = "the preferences have been changed at";
 
     private SharedPreferences sharedPreferences;
-    private static class Blocker {}
+
+    private static class Blocker {
+    }
 
     private static PreferenceUtil instance;
-    PreferenceUtil (final Blocker singletonBlocker) {}
+
+    PreferenceUtil(final Blocker singletonBlocker) {
+    }
+
     public static final PreferenceUtil getInstance(final Context context) {
         if (instance == null) {
             instance = new PreferenceUtil(new PreferenceUtil.Blocker());

@@ -25,8 +25,8 @@ import kotlinx.android.synthetic.main.content_scrolling.*
 
 class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerDialogListener {
 
-    var mSelectedColor = 0
-    var mAuthenticated = false
+    private var mSelectedColor = 0
+    private var mAuthenticated = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +51,13 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
         collapsingToolbar.setExpandedTitleTypeface(typeface)
 
         val radios = arrayListOf<RadioButton>(radioSad, radioMeh, radioHappy)
-        for(radio in radios) {
+        for (radio in radios) {
             radio.setOnClickListener { v ->
-                val accentColor = if (mSelectedColor != 0) { mSelectedColor } else { getColor(R.color.colorAccent) }
+                val accentColor = if (mSelectedColor != 0) {
+                    mSelectedColor
+                } else {
+                    getColor(R.color.colorAccent)
+                }
                 updateFeelingBackgroundColors(accentColor)
             }
         }
@@ -61,7 +65,7 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
 
     private fun updateFeelingBackgroundColors(color: Int) {
         val radios = arrayListOf<RadioButton>(radioSad, radioMeh, radioHappy)
-        for(v in radios) {
+        for (v in radios) {
             if (v.id == feelingRadioGroup.checkedRadioButtonId) {
                 v.setBackgroundColor(color)
             } else {

@@ -1,6 +1,5 @@
 package com.blakebarrett.snse
 
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,7 @@ import com.blakebarrett.snse.db.AppDatabase
 import com.blakebarrett.snse.db.Sentiment
 import kotlinx.android.synthetic.main.activity_sentiment_detail.*
 import kotlinx.android.synthetic.main.sentiment_detail.*
+import kotlin.math.max
 
 /**
  * A fragment representing a single Sentiment detail screen.
@@ -46,20 +46,26 @@ class SentimentDetailFragment : Fragment() {
         super.onResume()
 
         item?.let {
-            feelingsDetailTextView.text = it.feeling
-            intensityBar.progress = it.intensity
-            waterCheckBox.isChecked = it.water
-            elaborateText.text = it.elaborate
+
+            if (it.feeling == "") {
+                feelingsDetailTextViewParent.visibility = View.GONE
+            } else {
+                feelingsDetailTextView.text = it.feeling
+                feelingsDetailTextView.textSize = max((96 * (it.intensity * 0.01)), 10.0).toFloat()
+            }
+
+            waterImageView.setBackgroundResource(if (it.water) R.drawable.ic_water else R.drawable.ic_water_off)
+
+            if (it.elaborate == "") {
+                elaborateTextParent.visibility = View.GONE
+            } else {
+                elaborateText.text = it.elaborate
+            }
 
             val color = it.colorInt()
-            colorLinearLayout.setBackgroundColor(color)
-            intensityBar.progressDrawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
-
-            // These all need their accent color changed, not background.
-//        colorButton.setBackgroundColor(color)
-//        waterCheckBox.highlightColor = color
-//        elaborateText.highlightColor = color
-
+            if (color != 0) {
+                activity?.toolbar_layout?.setBackgroundColor(color)
+            }
         }
     }
 

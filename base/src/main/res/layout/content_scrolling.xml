@@ -95,8 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@android:drawable/ic_menu_add"
-                    android:background="@drawable/colorpickerview__btn_background"/>
+                    android:background="@drawable/ic_plus_circle_outline"/>
         </LinearLayout>
 
         <LinearLayout

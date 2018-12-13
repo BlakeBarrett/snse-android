@@ -10,7 +10,7 @@ public class NotificationsBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(final Context context, final Intent intent) {
         Log.d("snse.broadcastreceiver", "onReceive: " + String.valueOf(intent));
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            final Intent service = new  Intent(context, NotificationService.class);
+            final Intent service = new Intent(context, NotificationService.class);
             context.startService(service);
         } else {
             NotificationUtils.handleIntent(context, intent);

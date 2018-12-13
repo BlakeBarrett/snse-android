@@ -17,6 +17,7 @@
             android:layout_margin="@dimen/text_margin"
             android:paddingBottom="@dimen/text_margin">
         <LinearLayout
+                android:id="@+id/feelingsDetailTextViewParent"
                 android:orientation="vertical"
                 android:layout_marginBottom="@dimen/text_margin"
                 android:layout_width="match_parent"
@@ -31,44 +32,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:id="@+id/feelingsDetailTextView"
+                    android:textColor="#FF000000"
                     android:gravity="center"/>
         </LinearLayout>
 
         <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginBottom="@dimen/text_margin"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/text_margin"
-                    android:text="@string/intensity"/>
-            <ProgressBar
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:indeterminate="false"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/intensityBar"
-                    android:clickable="false"
-                    android:max="100"/>
-        </LinearLayout>
-
-        <LinearLayout
-                android:id="@+id/colorLinearLayout"
-                android:layout_marginBottom="@dimen/text_margin"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/text_margin"
-                    android:text="@string/color"/>
-        </LinearLayout>
-
-        <LinearLayout
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_marginBottom="@dimen/text_margin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -77,17 +46,16 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/text_margin"
                     android:text="@string/water"/>
-            <CheckBox
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/waterCheckBox"
-                    android:layout_margin="@dimen/text_margin"
+
+            <ImageView
+                    android:id="@+id/waterImageView"
                     android:layout_gravity="center"
-                    android:clickable="false"
-                    android:text=""/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <LinearLayout
+                android:id="@+id/elaborateTextParent"
                 android:orientation="vertical"
                 android:layout_marginBottom="@dimen/text_margin"
                 android:layout_weight="1"
@@ -99,9 +67,11 @@
                     android:layout_margin="@dimen/text_margin"
                     android:text="@string/elaborate"/>
             <TextView
-                    android:layout_width="match_parent"
+                    android:id="@+id/elaborateText"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/elaborateText"/>
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_margin="@dimen/text_margin"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

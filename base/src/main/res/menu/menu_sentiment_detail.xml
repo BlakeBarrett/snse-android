@@ -4,6 +4,7 @@
       tools:context="com.blakebarrett.snse.instantAppFeature.MainActivity">
     <item android:id="@+id/action_delete"
           android:title="@string/action_delete"
+          android:icon="@drawable/ic_trash_can"
           android:orderInCategory="100"
-          app:showAsAction="always"/>
+          app:showAsAction="ifRoom"/>
 </menu>
