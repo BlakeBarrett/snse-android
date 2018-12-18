@@ -265,11 +265,12 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
      *
      **/
     fun showColorPickerDialog() {
+        val color = if (mSelectedColor != 0) mSelectedColor else Color.WHITE
         val fragment = ColorPickerDialogFragment.newInstance(
             0,
             null,
             null,
-            Color.WHITE,
+            color,
             false
         )
         fragment.show(
