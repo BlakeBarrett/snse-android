@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.RadioButton
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import com.an.biometric.BiometricCallback
@@ -40,9 +41,26 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
         colorButton.setOnClickListener {
             showColorPickerDialog()
         }
+
+        applySliderChangeListener(intensityBar)
         reset()
         applyStyling()
         registerNotifications()
+    }
+
+    private fun applySliderChangeListener(bar: SeekBar) {
+        val minFontSize = 14
+        val maxFontSize = 72
+        bar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                val intensity = progress * 0.01
+                val size = minFontSize + (intensity * maxFontSize)
+                updateRadioFontSize(size)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
     }
 
     private fun applyStyling() {
@@ -84,6 +102,12 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
 //        colorButton.setBackgroundColor(color)
 //        waterCheckBox.highlightColor = color
 //        elaborateText.highlightColor = color
+    }
+
+    private fun updateRadioFontSize(value: Double) {
+        radioSad.textSize = value.toFloat()
+        radioMeh.textSize = value.toFloat()
+        radioHappy.textSize = value.toFloat()
     }
 
     private fun registerNotifications() {
