@@ -186,18 +186,24 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
                 /*
                  *  Will be called if the device sdk version does not support Biometric authentication
                  */
+                mAuthenticated = true
+                startHistoryActivity()
             }
 
             override fun onBiometricAuthenticationNotSupported() {
                 /*
                  *  Will be called if the device does not contain any fingerprint sensors
                  */
+                mAuthenticated = true
+                startHistoryActivity()
             }
 
             override fun onBiometricAuthenticationNotAvailable() {
                 /*
                  *  The device does not have any biometrics registered in the device.
                  */
+                mAuthenticated = true
+                startHistoryActivity()
             }
 
             override fun onBiometricAuthenticationPermissionNotGranted() {
