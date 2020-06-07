@@ -68,9 +68,8 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
         collapsingToolbar.setCollapsedTitleTypeface(typeface)
         collapsingToolbar.setExpandedTitleTypeface(typeface)
 
-        val radios = arrayListOf<RadioButton>(radioSad, radioMeh, radioHappy)
-        for (radio in radios) {
-            radio.setOnClickListener { v ->
+        arrayListOf<RadioButton>(radioSad, radioMeh, radioHappy).forEach { radio ->
+            radio.setOnClickListener { _ ->
                 val accentColor = if (mSelectedColor != 0) {
                     mSelectedColor
                 } else {
@@ -82,12 +81,11 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
     }
 
     private fun updateFeelingBackgroundColors(color: Int) {
-        val radios = arrayListOf<RadioButton>(radioSad, radioMeh, radioHappy)
-        for (v in radios) {
-            if (v.id == feelingRadioGroup.checkedRadioButtonId) {
-                v.setBackgroundColor(color)
+        arrayListOf<RadioButton>(radioSad, radioMeh, radioHappy).forEach {
+            if (it.id == feelingRadioGroup.checkedRadioButtonId) {
+                it.setBackgroundColor(color)
             } else {
-                v.setBackgroundColor(Color.TRANSPARENT)
+                it.setBackgroundColor(Color.TRANSPARENT)
             }
         }
     }
@@ -97,11 +95,6 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
         intensityBar.progressDrawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
         intensityBar.thumb.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
         fab.backgroundTintList = ColorStateList.valueOf(color)
-
-        // These all need their accent color changed, not background.
-//        colorButton.setBackgroundColor(color)
-//        waterCheckBox.highlightColor = color
-//        elaborateText.highlightColor = color
     }
 
     private fun updateRadioFontSize(value: Double) {
@@ -176,8 +169,9 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
     }
 
     private fun showSettings() {
-        val intent = Intent(this.applicationContext, SettingsActivity::class.java)
-        startActivity(intent)
+        Intent(this.applicationContext, SettingsActivity::class.java).let {
+            startActivity(it)
+        }
     }
 
     private fun getBiometricCallback(): BiometricCallback {
@@ -294,19 +288,21 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
      * Thanks!: https://github.com/danielnilsson9/color-picker-view
      *
      **/
-    fun showColorPickerDialog() {
-        val color = if (mSelectedColor != 0) mSelectedColor else Color.WHITE
-        val fragment = ColorPickerDialogFragment.newInstance(
+    private fun showColorPickerDialog(
+        color : Int = if (this.mSelectedColor != 0) mSelectedColor else Color.WHITE
+    ) {
+        ColorPickerDialogFragment.newInstance(
             0,
             null,
             null,
             color,
             false
-        )
-        fragment.show(
-            fragmentManager,
-            fragment.toString()
-        )
+        ).let {
+            it.show(
+                fragmentManager,
+                it.toString()
+            )
+        }
     }
 
     override fun onDialogDismissed(dialogId: Int) {}

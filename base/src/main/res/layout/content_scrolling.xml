@@ -129,7 +129,6 @@
                     android:layout_margin="@dimen/text_margin"
                     android:text="@string/elaborate"/>
             <EditText
-                    android:focusedByDefault="false"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
