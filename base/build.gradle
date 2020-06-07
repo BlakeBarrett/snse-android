@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "com.blakebarrett.snse.app"
         minSdkVersion 23
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
     }
@@ -21,17 +21,17 @@ android {
 }
 
 dependencies {
-    api 'androidx.appcompat:appcompat:1.0.2'
-    api 'com.google.android.material:material:1.1.0-alpha01'
-    api 'androidx.legacy:legacy-support-v4:1.0.0-alpha1'
-    api 'androidx.recyclerview:recyclerview:1.0.0-alpha1'
-    api 'androidx.constraintlayout:constraintlayout:1.1.2'
+    api 'androidx.appcompat:appcompat:1.1.0'
+    api 'com.google.android.material:material:1.3.0-alpha01'
+    api 'androidx.legacy:legacy-support-v4:1.0.0'
+    api 'androidx.recyclerview:recyclerview:1.2.0-alpha03'
+    api 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation "com.github.danielnilsson9:color-picker-view:1.4.0@aar"
     implementation(group: 'com.an.biometric', name: 'biometric-auth', version: '0.1.0', ext: 'aar', classifier: '')
 
-    def room_version = "2.0.0"
+    def room_version = '2.2.5'
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version" // use kapt for Kotlin
     kapt "android.arch.persistence.room:compiler:$room_version"
