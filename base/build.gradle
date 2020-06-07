@@ -1,12 +1,12 @@
-apply plugin: 'com.android.feature'
+apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
-    baseFeature true
     defaultConfig {
+        applicationId "com.blakebarrett.snse.app"
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
@@ -26,7 +26,6 @@ dependencies {
     api 'androidx.legacy:legacy-support-v4:1.0.0-alpha1'
     api 'androidx.recyclerview:recyclerview:1.0.0-alpha1'
     api 'androidx.constraintlayout:constraintlayout:1.1.2'
-    application project(':app')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation "com.github.danielnilsson9:color-picker-view:1.4.0@aar"
@@ -39,4 +38,5 @@ dependencies {
 }
 repositories {
     mavenCentral()
+    google()
 }
