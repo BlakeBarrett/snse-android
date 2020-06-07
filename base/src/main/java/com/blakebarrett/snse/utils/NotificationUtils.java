@@ -104,7 +104,7 @@ public class NotificationUtils {
         createNotificationChannel(context);
         final Bitmap largeIcon = BitmapFactory.decodeResource(
                 context.getResources(),
-                R.mipmap.ic_launcher);
+                R.mipmap.ic_launcher_foreground);
         final PendingIntent pendingIntent = getMainActivityPendingIntent(context);
         return new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher_round)
