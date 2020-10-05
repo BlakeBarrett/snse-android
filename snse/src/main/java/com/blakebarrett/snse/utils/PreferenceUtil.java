@@ -6,13 +6,8 @@ import android.content.SharedPreferences;
 public class PreferenceUtil {
 
     public static final String PREFERENCES_CHANGED = "the preferences have been changed at";
-
-    private SharedPreferences sharedPreferences;
-
-    private static class Blocker {
-    }
-
     private static PreferenceUtil instance;
+    private SharedPreferences sharedPreferences;
 
     PreferenceUtil(final Blocker singletonBlocker) {
     }
@@ -58,5 +53,8 @@ public class PreferenceUtil {
 
     public void setPreferencesClean() {
         savePref(PREFERENCES_CHANGED, (long) 0);
+    }
+
+    private static class Blocker {
     }
 }

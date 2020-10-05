@@ -7,11 +7,15 @@ import androidx.room.PrimaryKey
 import com.blakebarrett.snse.utils.ColorUtils
 
 @Entity
-public data class Sentiment(
+data class Sentiment(
     @PrimaryKey
     @NonNull
     val timestamp: Long,
-    val feeling: String, val intensity: Int, val color: String, val water: Boolean, val elaborate: String
+    val feeling: String,
+    val intensity: Int,
+    val color: String,
+    val water: Boolean,
+    val elaborate: String
 ) {
 
     fun colorInt(): Int {

@@ -6,10 +6,16 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.*;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.core.app.NavUtils;
+
 import com.blakebarrett.snse.utils.NotificationUtils;
 import com.blakebarrett.snse.utils.PreferenceUtil;
 

@@ -52,7 +52,8 @@ class SentimentDetailActivity : AppCompatActivity() {
                 .add(R.id.sentiment_detail_container, fragment)
                 .commit()
 
-            this.mSentiment = AppDatabase.getInstance(applicationContext).sentimentDao().findByTimestamp(itemId)
+            this.mSentiment =
+                AppDatabase.getInstance(applicationContext).sentimentDao().findByTimestamp(itemId)
         }
     }
 

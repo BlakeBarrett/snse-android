@@ -8,7 +8,7 @@ import android.util.Log;
 public class NotificationsBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, final Intent intent) {
-        Log.d("snse.broadcastreceiver", "onReceive: " + String.valueOf(intent));
+        Log.d("snse.broadcastreceiver", "onReceive: " + intent);
         NotificationUtils.handleIntent(context.getApplicationContext(), intent);
     }
 }

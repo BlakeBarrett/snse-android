@@ -1,14 +1,20 @@
 package com.blakebarrett.snse.utils;
 
-import android.app.*;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+
 import com.blakebarrett.snse.MainActivity;
 import com.blakebarrett.snse.R;
 import com.blakebarrett.snse.SettingsActivity;
@@ -17,9 +23,16 @@ import java.util.Calendar;
 
 public class NotificationUtils {
 
+    public static final String TYPE = "type";
+    public static final String TWO_WEEK_REMINDER = "two_week_reminder_notification";
     private static final String CHANNEL_NAME = "snse-notification-channel";
     private static final String CHANNEL_ID = CHANNEL_NAME + "_ID";
     private static final String CHANNEL_DESCRIPTION = "Reminders to check in with yourself.";
+    private static final String APPLICATION_LAUNCH_TIME = "applicationLastLaunchedMillis";
+    private static final String TWO_WEEK_NOTIFICATION_TIME = "twoWeeksFromLastTimeAppWasLaunched";
+    private static final int TWO_WEEK_NOTIFICATION_ID = 12345;
+    //    private static final long TWO_WEEKS_WORTH_OF_MILLISECONDS = (60_000);
+    private static final long TWO_WEEKS_WORTH_OF_MILLISECONDS = (60_000 * 60 * 24 * 14);
 
     private static AlarmManager getAlarmManager(final Context context) {
         return (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -117,13 +130,6 @@ public class NotificationUtils {
                 .build();
     }
 
-    private static final String APPLICATION_LAUNCH_TIME = "applicationLastLaunchedMillis";
-    private static final String TWO_WEEK_NOTIFICATION_TIME = "twoWeeksFromLastTimeAppWasLaunched";
-    private static final int TWO_WEEK_NOTIFICATION_ID = 12345;
-
-//    private static final long TWO_WEEKS_WORTH_OF_MILLISECONDS = (60_000);
-    private static final long TWO_WEEKS_WORTH_OF_MILLISECONDS = (60_000 * 60 * 24 * 14);
-
     public static void applicationDidLaunch(final Context context) {
         final PreferenceUtil prefs = PreferenceUtil.getInstance(context);
         // when was the last time the app was launched
@@ -135,9 +141,6 @@ public class NotificationUtils {
         prefs.savePref(TWO_WEEK_NOTIFICATION_TIME, twoWeeksFromNow);
         scheduleReminderNotification(context, twoWeeksFromNow);
     }
-
-    public static final String TYPE = "type";
-    public static final String TWO_WEEK_REMINDER = "two_week_reminder_notification";
 
     private static void scheduleReminderNotification(final Context context, final long when) {
         final Intent intent = new Intent(context.getApplicationContext(), NotificationsBroadcastReceiver.class);

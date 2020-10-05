@@ -57,6 +57,7 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
                 val size = minFontSize + (intensity * maxFontSize)
                 updateRadioFontSize(size)
             }
+
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
@@ -289,7 +290,7 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
      *
      **/
     private fun showColorPickerDialog(
-        color : Int = if (this.mSelectedColor != 0) mSelectedColor else Color.WHITE
+        color: Int = if (this.mSelectedColor != 0) mSelectedColor else Color.WHITE
     ) {
         ColorPickerDialogFragment.newInstance(
             0,

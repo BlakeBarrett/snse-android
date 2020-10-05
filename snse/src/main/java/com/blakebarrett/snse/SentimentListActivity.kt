@@ -30,7 +30,7 @@ class SentimentListActivity : AppCompatActivity() {
      * device.
      */
     private var twoPane: Boolean = false
-    lateinit private var sentiments: List<Sentiment>
+    private lateinit var sentiments: List<Sentiment>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

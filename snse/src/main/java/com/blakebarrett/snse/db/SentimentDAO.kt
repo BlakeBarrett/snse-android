@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 
 @Dao
-public interface SentimentDAO {
+interface SentimentDAO {
     @Query("SELECT * FROM Sentiment ORDER BY timestamp DESC")
     fun getAll(): List<Sentiment>
 

@@ -26,8 +26,10 @@ class SentimentDetailFragment : Fragment() {
 
         arguments?.let {
             if (it.containsKey(ARG_ITEM_ID)) {
-                val dao = AppDatabase.getInstance(this.requireContext().applicationContext).sentimentDao()
-                val timestamp = (activity?.intent?.extras?.get(ARG_ITEM_ID) ?: it.get(ARG_ITEM_ID)) as Long
+                val dao =
+                    AppDatabase.getInstance(this.requireContext().applicationContext).sentimentDao()
+                val timestamp =
+                    (activity?.intent?.extras?.get(ARG_ITEM_ID) ?: it.get(ARG_ITEM_ID)) as Long
                 item = dao.findByTimestamp(timestamp)
                 activity?.toolbar_layout?.title = item?.prettyDate()
             }
