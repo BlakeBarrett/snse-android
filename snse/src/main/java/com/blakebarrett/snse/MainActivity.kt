@@ -3,7 +3,6 @@ package com.blakebarrett.snse
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -66,8 +65,11 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
 
     private fun applyStyling() {
         val typeface = ResourcesCompat.getFont(this, R.font.signpainter)
-        collapsingToolbar.setCollapsedTitleTypeface(typeface)
-        collapsingToolbar.setExpandedTitleTypeface(typeface)
+
+        with(collapsingToolbar) {
+            setCollapsedTitleTypeface(typeface)
+            setExpandedTitleTypeface(typeface)
+        }
 
         arrayListOf<RadioButton>(radioSad, radioMeh, radioHappy).forEach { radio ->
             radio.setOnClickListener { _ ->
@@ -93,8 +95,10 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
 
     private fun updateAllBackgroundColors(color: Int) {
         updateFeelingBackgroundColors(color)
-        intensityBar.progressDrawable.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
-        intensityBar.thumb.setColorFilter(color, PorterDuff.Mode.MULTIPLY)
+        intensityBar.apply {
+            progressDrawable.setTint(color)
+            thumb.setTint(color)
+        }
         fab.backgroundTintList = ColorStateList.valueOf(color)
     }
 
