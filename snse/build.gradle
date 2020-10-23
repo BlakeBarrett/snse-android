@@ -26,7 +26,7 @@ dependencies {
     api 'androidx.recyclerview:recyclerview:1.2.0-alpha06'
     api 'androidx.constraintlayout:constraintlayout:2.0.2'
     api 'com.google.android.material:material:1.2.1'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation "com.github.danielnilsson9:color-picker-view:1.4.0@aar"
     implementation(group: 'com.an.biometric', name: 'biometric-auth', version: '0.1.0', ext: 'aar', classifier: '')
@@ -36,6 +36,7 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version" // use kapt for Kotlin
     kapt 'androidx.room:room-compiler:2.2.5'
 }
+
 repositories {
     mavenCentral()
     google()

@@ -14,9 +14,9 @@ import kotlinx.android.synthetic.main.activity_sentiment_detail.*
  * item details are presented side-by-side with a list of items
  * in a [SentimentListActivity].
  */
-class SentimentDetailActivity : AppCompatActivity() {
-
-    lateinit var mSentiment: Sentiment
+class SentimentDetailActivity (
+    var mSentiment: Sentiment
+) : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +35,7 @@ class SentimentDetailActivity : AppCompatActivity() {
         //
         // http://developer.android.com/guide/components/fragments.html
         //
-        if (savedInstanceState == null) {
+        savedInstanceState?.let {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             val itemId = intent.getLongExtra(SentimentDetailFragment.ARG_ITEM_ID, 0)
@@ -72,12 +72,10 @@ class SentimentDetailActivity : AppCompatActivity() {
                 //
                 // http://developer.android.com/design/patterns/navigation.html#up-vs-back
                 finish()
-                true
             }
             R.id.action_delete -> {
                 AppDatabase.getInstance(applicationContext).sentimentDao().delete(mSentiment)
                 finish()
-                true
             }
             else -> super.onOptionsItemSelected(item)
         }

@@ -14,6 +14,7 @@ import com.an.biometric.BiometricCallback
 import com.an.biometric.BiometricManager
 import com.blakebarrett.snse.db.AppDatabase
 import com.blakebarrett.snse.db.Sentiment
+import com.blakebarrett.snse.db.SentimentDAO
 import com.blakebarrett.snse.utils.ColorUtils
 import com.blakebarrett.snse.utils.NotificationUtils
 import com.blakebarrett.snse.utils.PreferenceUtil
@@ -22,11 +23,10 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_scrolling.*
 import kotlinx.android.synthetic.main.content_scrolling.*
 
-
-class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerDialogListener {
-
-    private var mSelectedColor = 0
-    private var mAuthenticated = false
+class MainActivity (
+    private var mSelectedColor: Int = 0,
+    private var mAuthenticated: Boolean = false
+) : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerDialogListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +65,6 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
 
     private fun applyStyling() {
         val typeface = ResourcesCompat.getFont(this, R.font.signpainter)
-
         with(collapsingToolbar) {
             setCollapsedTitleTypeface(typeface)
             setExpandedTitleTypeface(typeface)
@@ -73,12 +72,13 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
 
         arrayListOf<RadioButton>(radioSad, radioMeh, radioHappy).forEach { radio ->
             radio.setOnClickListener { _ ->
-                val accentColor = if (mSelectedColor != 0) {
-                    mSelectedColor
-                } else {
-                    getColor(R.color.colorAccent)
-                }
-                updateFeelingBackgroundColors(accentColor)
+                updateFeelingBackgroundColors(
+                    if (mSelectedColor != 0) {
+                        mSelectedColor
+                    } else {
+                        getColor(R.color.colorAccent)
+                    }
+                )
             }
         }
     }
@@ -134,20 +134,19 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
         return super.onOptionsItemSelected(item)
     }
 
-    private fun getCurrentSentiment(): Sentiment {
-        val timestamp = System.currentTimeMillis() / 1000
-        val feeling = when (feelingRadioGroup.checkedRadioButtonId) {
+    private fun getCurrentSentiment(
+        timestamp: Long = System.currentTimeMillis() / 1000,
+        feeling: String = when (feelingRadioGroup.checkedRadioButtonId) {
             R.id.radioSad -> getString(R.string.feelingSad)
             R.id.radioMeh -> getString(R.string.feelingMeh)
             R.id.radioHappy -> getString(R.string.feelingHappy)
             else -> String()
-        }
-
-        val intensity = intensityBar.progress
-        val water = waterCheckBox.isChecked
-        val elaborate = elaborateText.text.toString()
-        val color = ColorUtils.toHexString(mSelectedColor.toBigInteger().toByteArray())
-
+        },
+        intensity: Int = intensityBar.progress,
+        water: Boolean = waterCheckBox.isChecked,
+        elaborate: String = elaborateText.text.toString(),
+        color: String = ColorUtils.toHexString(mSelectedColor.toBigInteger().toByteArray())
+    ): Sentiment {
         return Sentiment(
             timestamp = timestamp,
             feeling = feeling,
@@ -158,9 +157,12 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
         )
     }
 
-    private fun save() {
-        val currentSentiment = getCurrentSentiment()
-        AppDatabase.getInstance(applicationContext).sentimentDao().insert(currentSentiment)
+    private fun save(
+        db: AppDatabase = AppDatabase.getInstance(applicationContext),
+        dao: SentimentDAO = db.sentimentDao(),
+        sentiment: Sentiment = getCurrentSentiment()
+    ) {
+        dao.insert(sentiment)
     }
 
     private fun reset() {
@@ -283,8 +285,9 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
         }
     }
 
-    private fun startHistoryActivity() {
-        val intent = Intent(this.applicationContext, SentimentListActivity::class.java)
+    private fun startHistoryActivity(
+        intent: Intent = Intent(this.applicationContext, SentimentListActivity::class.java)
+    ) {
         startActivity(intent)
     }
 
@@ -305,7 +308,7 @@ class MainActivity : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerD
         ).let {
             it.show(
                 fragmentManager,
-                it.toString()
+                ""
             )
         }
     }

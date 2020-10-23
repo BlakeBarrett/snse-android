@@ -89,42 +89,58 @@ class SentimentListActivity : AppCompatActivity() {
         private val onClickListener: View.OnClickListener
 
         init {
-            onClickListener = View.OnClickListener { v ->
-                val item = v.tag as Sentiment
-                if (twoPane) {
-                    val fragment = SentimentDetailFragment().apply {
-                        arguments = Bundle().apply {
-                            putLong(SentimentDetailFragment.ARG_ITEM_ID, item.timestamp)
+            onClickListener = View.OnClickListener { view ->
+                (view.tag as Sentiment).let { item ->
+                    if (twoPane) {
+                        SentimentDetailFragment().apply {
+                            arguments = Bundle().apply {
+                                putLong(SentimentDetailFragment.ARG_ITEM_ID, item.timestamp)
+                            }
+                        }.let {fragment ->
+                            parentActivity.supportFragmentManager
+                                .beginTransaction()
+                                .replace(R.id.sentiment_detail_container, fragment)
+                                .commit()
                         }
+                    } else {
+                        view.context.startActivity(
+                            Intent(
+                                view.context,
+                                SentimentDetailActivity::class.java
+                            ).apply {
+                                putExtra(
+                                    SentimentDetailFragment.ARG_ITEM_ID,
+                                    item.timestamp
+                                )
+                            }
+                        )
                     }
-                    parentActivity.supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.sentiment_detail_container, fragment)
-                        .commit()
-                } else {
-                    val intent = Intent(v.context, SentimentDetailActivity::class.java).apply {
-                        putExtra(SentimentDetailFragment.ARG_ITEM_ID, item.timestamp)
-                    }
-                    v.context.startActivity(intent)
                 }
             }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.sentiment_list_content, parent, false)
-            return ViewHolder(view)
+            return ViewHolder(
+                LayoutInflater
+                    .from(parent.context)
+                    .inflate(
+                        R.layout.sentiment_list_content,
+                        parent,
+                        false
+                    )
+            )
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val item = values[position]
-            holder.idView.text = item.feeling
-            holder.contentView.text = item.elaborate
-            holder.backgroundView.setBackgroundColor(item.colorInt())
+            values[position].let { item ->
+                holder.idView.text = item.feeling
+                holder.contentView.text = item.elaborate
+                holder.backgroundView.setBackgroundColor(item.colorInt())
 
-            with(holder.itemView) {
-                tag = item
-                setOnClickListener(onClickListener)
+                with(holder.itemView) {
+                    tag = item
+                    setOnClickListener(onClickListener)
+                }
             }
         }
 
