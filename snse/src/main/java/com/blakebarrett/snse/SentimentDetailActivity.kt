@@ -1,11 +1,13 @@
 package com.blakebarrett.snse
 
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.blakebarrett.snse.db.AppDatabase
 import com.blakebarrett.snse.db.Sentiment
+import com.blakebarrett.snse.db.SentimentDAO
 import kotlinx.android.synthetic.main.activity_sentiment_detail.*
 
 /**
@@ -15,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_sentiment_detail.*
  * in a [SentimentListActivity].
  */
 class SentimentDetailActivity (
-    var mSentiment: Sentiment
+    private var mSentiment: Sentiment? = null
 ) : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,11 +76,22 @@ class SentimentDetailActivity (
                 finish()
             }
             R.id.action_delete -> {
-                AppDatabase.getInstance(applicationContext).sentimentDao().delete(mSentiment)
+                mSentiment?.let {
+                    delete(it)
+                }
                 finish()
             }
             else -> super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    private fun delete(
+        sentiment: Sentiment,
+        context: Context = applicationContext,
+        database: AppDatabase = AppDatabase.getInstance(context),
+        sentimentDao: SentimentDAO = database.sentimentDao()
+    ) {
+        sentimentDao.delete(sentiment)
     }
 }

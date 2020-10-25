@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = arrayOf(Sentiment::class), version = 1)
+@Database(entities = [Sentiment::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun sentimentDao(): SentimentDAO
