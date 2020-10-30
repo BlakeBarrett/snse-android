@@ -12,20 +12,25 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
 
+        private val filename = "Sentiments.db"
+
         @Volatile
         private var instance: AppDatabase? = null
 
         fun getInstance(context: Context): AppDatabase {
-            if (instance == null) {
-                instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
-                    "Sentiments.db"
-                )
-                    .allowMainThreadQueries()
-                    .build()
+            instance?.let {
+                return it
             }
-            return instance!!
+            Room.databaseBuilder(
+                context.applicationContext,
+                AppDatabase::class.java,
+                filename
+            )
+                .allowMainThreadQueries()
+                .build().apply {
+                    instance = this
+                    return this
+                }
         }
     }
 }
