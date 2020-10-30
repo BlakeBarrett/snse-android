@@ -40,17 +40,17 @@ class MainActivity (
         colorButton.setOnClickListener {
             showColorPickerDialog()
         }
-
         applySliderChangeListener(intensityBar)
         reset()
         applyStyling()
         registerNotifications()
     }
 
-    private fun applySliderChangeListener(bar: SeekBar) {
-        val minFontSize = 14
-        val maxFontSize = 72
-        bar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+    private fun applySliderChangeListener(
+        bar: SeekBar,
+        minFontSize: Int = 14,
+        maxFontSize: Int = 72,
+        changeListener: SeekBar.OnSeekBarChangeListener = object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
                 val intensity = progress * 0.01
                 val size = minFontSize + (intensity * maxFontSize)
@@ -60,7 +60,9 @@ class MainActivity (
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
+        }
+    ) {
+        bar.setOnSeekBarChangeListener(changeListener)
     }
 
     private fun applyStyling() {
@@ -83,13 +85,11 @@ class MainActivity (
         }
     }
 
-    private fun updateFeelingBackgroundColors(color: Int) {
+    private fun updateFeelingBackgroundColors(value: Int) {
         arrayListOf<RadioButton>(radioSad, radioMeh, radioHappy).forEach {
-            if (it.id == feelingRadioGroup.checkedRadioButtonId) {
-                it.setBackgroundColor(color)
-            } else {
-                it.setBackgroundColor(Color.TRANSPARENT)
-            }
+            it.setBackgroundColor(
+                if (it.id == feelingRadioGroup.checkedRadioButtonId) value else Color.TRANSPARENT
+            )
         }
     }
 
@@ -99,6 +99,7 @@ class MainActivity (
             progressDrawable.setTint(color)
             thumb.setTint(color)
         }
+        elaborateText.highlightColor = color
         fab.backgroundTintList = ColorStateList.valueOf(color)
     }
 
@@ -170,8 +171,10 @@ class MainActivity (
         waterCheckBox.isChecked = false
         intensityBar.progress = 50
         elaborateText.text.clear()
-        val defaultAccentColor = getColor(R.color.colorAccent)
-        updateAllBackgroundColors(defaultAccentColor)
+        getColor(R.color.colorAccent).let { defaultAccentColor ->
+            elaborateText.highlightColor = defaultAccentColor
+            updateAllBackgroundColors(defaultAccentColor)
+        }
         mSelectedColor = 0
     }
 
@@ -285,10 +288,13 @@ class MainActivity (
         }
     }
 
-    private fun startHistoryActivity(
-        intent: Intent = Intent(this.applicationContext, SentimentListActivity::class.java)
-    ) {
-        startActivity(intent)
+    private fun startHistoryActivity() {
+        startActivity(
+            Intent(
+                this.applicationContext,
+                SentimentListActivity::class.java
+            )
+        )
     }
 
     /** Color picker stuff
