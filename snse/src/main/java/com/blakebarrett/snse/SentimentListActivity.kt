@@ -83,8 +83,7 @@ class SentimentListActivity : AppCompatActivity() {
         private val parentActivity: SentimentListActivity,
         private val values: List<Sentiment>,
         private val twoPane: Boolean
-    ) :
-        RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
+    ) : RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
 
         private val onClickListener: View.OnClickListener
 
@@ -94,26 +93,29 @@ class SentimentListActivity : AppCompatActivity() {
                     if (twoPane) {
                         SentimentDetailFragment().apply {
                             arguments = Bundle().apply {
-                                putLong(SentimentDetailFragment.ARG_ITEM_ID, item.timestamp)
+                                putLong(
+                                    SentimentDetailFragment.ARG_ITEM_ID,
+                                    item.timestamp
+                                )
                             }
-                        }.let {fragment ->
+                        }.let { fragment ->
                             parentActivity.supportFragmentManager
                                 .beginTransaction()
                                 .replace(R.id.sentiment_detail_container, fragment)
                                 .commit()
                         }
                     } else {
-                        view.context.startActivity(
-                            Intent(
-                                view.context,
-                                SentimentDetailActivity::class.java
-                            ).apply {
-                                putExtra(
-                                    SentimentDetailFragment.ARG_ITEM_ID,
-                                    item.timestamp
-                                )
-                            }
-                        )
+                        Intent(
+                            view.context,
+                            SentimentDetailActivity::class.java
+                        ).apply {
+                            putExtra(
+                                SentimentDetailFragment.ARG_ITEM_ID,
+                                item.timestamp
+                            )
+                        }.let { intent ->
+                            view.context.startActivity(intent)
+                        }
                     }
                 }
             }

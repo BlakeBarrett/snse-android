@@ -37,25 +37,29 @@ class SentimentDetailActivity (
         //
         // http://developer.android.com/guide/components/fragments.html
         //
+
         savedInstanceState?.let {
-            // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
-            val itemId = intent.getLongExtra(SentimentDetailFragment.ARG_ITEM_ID, 0)
-            val fragment = SentimentDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putLong(
-                        SentimentDetailFragment.ARG_ITEM_ID,
-                        itemId
-                    )
-                }
+            return
+        }
+
+        // Create the detail fragment and add it to the activity
+        // using a fragment transaction.
+        val itemId = intent.getLongExtra(SentimentDetailFragment.ARG_ITEM_ID, 0)
+        val fragment = SentimentDetailFragment().apply {
+            arguments = Bundle().apply {
+                putLong(
+                    SentimentDetailFragment.ARG_ITEM_ID,
+                    itemId
+                )
             }
+        }
 
-            supportFragmentManager.beginTransaction()
-                .add(R.id.sentiment_detail_container, fragment)
-                .commit()
+        supportFragmentManager.beginTransaction()
+            .add(R.id.sentiment_detail_container, fragment)
+            .commit()
 
-            this.mSentiment =
-                AppDatabase.getInstance(applicationContext).sentimentDao().findByTimestamp(itemId)
+        AppDatabase.getInstance(applicationContext).sentimentDao().findByTimestamp(itemId).let {
+            this.mSentiment = it
         }
     }
 

@@ -19,21 +19,8 @@ import kotlin.math.max
  */
 class SentimentDetailFragment : Fragment() {
 
-    private var item: Sentiment? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        arguments?.let {
-            if (it.containsKey(ARG_ITEM_ID)) {
-                val dao =
-                    AppDatabase.getInstance(this.requireContext().applicationContext).sentimentDao()
-                val timestamp =
-                    (activity?.intent?.extras?.get(ARG_ITEM_ID) ?: it.get(ARG_ITEM_ID)) as Long
-                item = dao.findByTimestamp(timestamp)
-                activity?.toolbar_layout?.title = item?.prettyDate()
-            }
-        }
+    companion object {
+        const val ARG_ITEM_ID = "timestamp"
     }
 
     override fun onCreateView(
@@ -64,14 +51,33 @@ class SentimentDetailFragment : Fragment() {
                 elaborateText.text = it.elaborate
             }
 
-            val color = it.colorInt()
-            if (color != 0) {
-                activity?.toolbar_layout?.setBackgroundColor(color)
+            activity?.toolbar_layout?.let { toolbar ->
+                toolbar.title = it.prettyDate()
+                it.colorInt().let { color ->
+                    if (color != 0) {
+                        toolbar.setBackgroundColor(color)
+                    }
+                }
             }
         }
     }
 
-    companion object {
-        const val ARG_ITEM_ID = "timestamp"
-    }
+    private val item : Sentiment?
+        get() {
+            requireContext().applicationContext.let { context ->
+                arguments?.let {
+                    val sentinel : Long = -1337
+                    val timestamp = it.getLong(ARG_ITEM_ID, sentinel)
+                    if (timestamp != sentinel) {
+                        AppDatabase
+                            .getInstance(context)
+                            .sentimentDao()
+                            .findByTimestamp(timestamp).let { sentiment ->
+                                return sentiment
+                            }
+                    }
+                }
+            }
+            return null
+        }
 }
