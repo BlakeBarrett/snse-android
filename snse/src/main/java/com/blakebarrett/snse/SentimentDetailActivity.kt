@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_sentiment_detail.*
  * item details are presented side-by-side with a list of items
  * in a [SentimentListActivity].
  */
-class SentimentDetailActivity (
+class SentimentDetailActivity(
     private var mSentiment: Sentiment? = null
 ) : AppCompatActivity() {
 
@@ -44,23 +44,29 @@ class SentimentDetailActivity (
 
         // Create the detail fragment and add it to the activity
         // using a fragment transaction.
-        val itemId = intent.getLongExtra(SentimentDetailFragment.ARG_ITEM_ID, 0)
-        val fragment = SentimentDetailFragment().apply {
-            arguments = Bundle().apply {
-                putLong(
-                    SentimentDetailFragment.ARG_ITEM_ID,
-                    itemId
-                )
+        intent.getLongExtra(SentimentDetailFragment.ARG_ITEM_ID, 0).let { itemId ->
+            SentimentDetailFragment().apply {
+                arguments = Bundle().apply {
+                    putLong(
+                        SentimentDetailFragment.ARG_ITEM_ID,
+                        itemId
+                    )
+                }
+            }.let { fragment ->
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.sentiment_detail_container, fragment)
+                    .commit()
+            }
+
+            fetch(itemId).let { sentiment ->
+                this.mSentiment = sentiment
             }
         }
+    }
 
-        supportFragmentManager.beginTransaction()
-            .add(R.id.sentiment_detail_container, fragment)
-            .commit()
-
-        AppDatabase.getInstance(applicationContext).sentimentDao().findByTimestamp(itemId).let {
-            this.mSentiment = it
-        }
+    override fun onDestroy() {
+        this.mSentiment = null
+        super.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -88,6 +94,15 @@ class SentimentDetailActivity (
             else -> super.onOptionsItemSelected(item)
         }
         return true
+    }
+
+    private fun fetch(
+        itemId: Long,
+        context: Context = applicationContext,
+        database: AppDatabase = AppDatabase.getInstance(context),
+        sentimentDao: SentimentDAO = database.sentimentDao()
+    ): Sentiment {
+        return sentimentDao.findByTimestamp(itemId)
     }
 
     private fun delete(
