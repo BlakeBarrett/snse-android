@@ -12,35 +12,49 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import com.an.biometric.BiometricCallback
 import com.an.biometric.BiometricManager
+import com.blakebarrett.snse.databinding.ActivityScrollingBinding
+import com.blakebarrett.snse.databinding.ContentScrollingBinding
 import com.blakebarrett.snse.db.AppDatabase
 import com.blakebarrett.snse.db.Sentiment
 import com.blakebarrett.snse.db.SentimentDAO
 import com.blakebarrett.snse.utils.ColorUtils
 import com.blakebarrett.snse.utils.NotificationUtils
 import com.blakebarrett.snse.utils.PreferenceUtil
+import com.blakebarrett.snse.R
 import com.github.danielnilsson9.colorpickerview.dialog.ColorPickerDialogFragment
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_scrolling.*
-import kotlinx.android.synthetic.main.content_scrolling.*
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity (
     private var mSelectedColor: Int = 0,
     private var mAuthenticated: Boolean = false
 ) : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerDialogListener {
 
+    private lateinit var binding: ContentScrollingBinding
+    private lateinit var fab: FloatingActionButton
+    private lateinit var collapsingToolbar: CollapsingToolbarLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_scrolling)
-        setSupportActionBar(toolbar)
+        ActivityScrollingBinding.inflate(layoutInflater).also {
+            setContentView(it.root)
+            fab = it.fab
+            setSupportActionBar(it.toolbar)
+            collapsingToolbar = it.collapsingToolbar
+        }
         fab.setOnClickListener { view ->
             save()
             reset()
             Snackbar.make(view, getString(R.string.thanks), Snackbar.LENGTH_LONG).show()
         }
-        colorButton.setOnClickListener {
-            showColorPickerDialog()
+
+        binding = ContentScrollingBinding.inflate(layoutInflater).also {
+            it.colorButton.setOnClickListener {
+                showColorPickerDialog()
+            }
+            applySliderChangeListener(it.intensityBar)
         }
-        applySliderChangeListener(intensityBar)
         reset()
         applyStyling()
         registerNotifications()
@@ -72,7 +86,11 @@ class MainActivity (
             setExpandedTitleTypeface(typeface)
         }
 
-        arrayListOf<RadioButton>(radioSad, radioMeh, radioHappy).forEach { radio ->
+        arrayListOf<RadioButton>(
+            binding.radioSad,
+            binding.radioMeh,
+            binding.radioHappy
+        ).forEach { radio ->
             radio.setOnClickListener { _ ->
                 updateFeelingBackgroundColors(
                     if (mSelectedColor != 0) {
@@ -86,27 +104,31 @@ class MainActivity (
     }
 
     private fun updateFeelingBackgroundColors(value: Int) {
-        arrayListOf<RadioButton>(radioSad, radioMeh, radioHappy).forEach {
+        arrayListOf<RadioButton>(
+            binding.radioSad,
+            binding.radioMeh,
+            binding.radioHappy
+        ).forEach {
             it.setBackgroundColor(
-                if (it.id == feelingRadioGroup.checkedRadioButtonId) value else Color.TRANSPARENT
+                if (it.id == binding.feelingRadioGroup.checkedRadioButtonId) value else Color.TRANSPARENT
             )
         }
     }
 
     private fun updateAllBackgroundColors(color: Int) {
         updateFeelingBackgroundColors(color)
-        intensityBar.apply {
+        binding.intensityBar.apply {
             progressDrawable.setTint(color)
             thumb.setTint(color)
         }
-        elaborateText.highlightColor = color
+        binding.elaborateText.highlightColor = color
         fab.backgroundTintList = ColorStateList.valueOf(color)
     }
 
     private fun updateRadioFontSize(value: Double) {
-        radioSad.textSize = value.toFloat()
-        radioMeh.textSize = value.toFloat()
-        radioHappy.textSize = value.toFloat()
+        binding.radioSad.textSize = value.toFloat()
+        binding.radioMeh.textSize = value.toFloat()
+        binding.radioHappy.textSize = value.toFloat()
     }
 
     private fun registerNotifications() {
@@ -137,15 +159,15 @@ class MainActivity (
 
     private fun getCurrentSentiment(
         timestamp: Long = System.currentTimeMillis() / 1000,
-        feeling: String = when (feelingRadioGroup.checkedRadioButtonId) {
+        feeling: String = when (binding.feelingRadioGroup.checkedRadioButtonId) {
             R.id.radioSad -> getString(R.string.feelingSad)
             R.id.radioMeh -> getString(R.string.feelingMeh)
             R.id.radioHappy -> getString(R.string.feelingHappy)
             else -> String()
         },
-        intensity: Int = intensityBar.progress,
-        water: Boolean = waterCheckBox.isChecked,
-        elaborate: String = elaborateText.text.toString(),
+        intensity: Int = binding.intensityBar.progress,
+        water: Boolean = binding.waterCheckBox.isChecked,
+        elaborate: String = binding.elaborateText.text.toString(),
         color: String = ColorUtils.toHexString(mSelectedColor.toBigInteger().toByteArray())
     ): Sentiment {
         return Sentiment(
@@ -167,12 +189,12 @@ class MainActivity (
     }
 
     private fun reset() {
-        feelingRadioGroup.clearCheck()
-        waterCheckBox.isChecked = false
-        intensityBar.progress = 50
-        elaborateText.text.clear()
+        binding.feelingRadioGroup.clearCheck()
+        binding.waterCheckBox.isChecked = false
+        binding.intensityBar.progress = 50
+        binding.elaborateText.text.clear()
         getColor(R.color.colorAccent).let { defaultAccentColor ->
-            elaborateText.highlightColor = defaultAccentColor
+            binding.elaborateText.highlightColor = defaultAccentColor
             updateAllBackgroundColors(defaultAccentColor)
         }
         mSelectedColor = 0

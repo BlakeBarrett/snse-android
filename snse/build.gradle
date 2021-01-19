@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -11,6 +10,9 @@ android {
         targetSdkVersion 30
         versionCode 2
         versionName "1.1"
+    }
+    buildFeatures {
+        viewBinding true
     }
     buildTypes {
         release {
@@ -30,6 +32,9 @@ dependencies {
 
     implementation "com.github.danielnilsson9:color-picker-view:1.4.0@aar"
     implementation(group: 'com.an.biometric', name: 'biometric-auth', version: '0.1.0', ext: 'aar', classifier: '')
+
+    def lifecycle_version = '2.2.0'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
     def room_version = '2.2.6'
     implementation "androidx.room:room-runtime:$room_version"

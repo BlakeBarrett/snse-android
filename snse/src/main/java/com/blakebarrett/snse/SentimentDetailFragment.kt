@@ -5,10 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.blakebarrett.snse.databinding.SentimentDetailBinding
 import com.blakebarrett.snse.db.AppDatabase
 import com.blakebarrett.snse.db.Sentiment
-import kotlinx.android.synthetic.main.activity_sentiment_detail.*
-import kotlinx.android.synthetic.main.sentiment_detail.*
 import kotlin.math.max
 
 /**
@@ -23,12 +22,17 @@ class SentimentDetailFragment : Fragment() {
         const val ARG_ITEM_ID = "timestamp"
     }
 
+    private var mBinding: SentimentDetailBinding? = null
+    private val binding get() = mBinding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.sentiment_detail, container, false)
+    ): View {
+        SentimentDetailBinding.inflate(inflater, container, false).let {
+            mBinding = it
+            return binding.root
+        }
     }
 
     override fun onResume() {
@@ -37,25 +41,27 @@ class SentimentDetailFragment : Fragment() {
         item?.let {
 
             if (it.feeling == "") {
-                feelingsDetailTextViewParent.visibility = View.GONE
+                binding.feelingsDetailTextViewParent.visibility = View.GONE
             } else {
-                feelingsDetailTextView.text = it.feeling
-                feelingsDetailTextView.textSize = max((96 * (it.intensity * 0.01)), 10.0).toFloat()
+                binding.feelingsDetailTextView.text = it.feeling
+                binding.feelingsDetailTextView.textSize = max((96 * (it.intensity * 0.01)), 10.0).toFloat()
             }
 
-            waterImageView.setBackgroundResource(if (it.water) R.drawable.ic_water else R.drawable.ic_water_off)
+            binding.waterImageView.setBackgroundResource(if (it.water) R.drawable.ic_water else R.drawable.ic_water_off)
 
             if (it.elaborate == "") {
-                elaborateTextParent.visibility = View.GONE
+                binding.elaborateTextParent.visibility = View.GONE
             } else {
-                elaborateText.text = it.elaborate
+                binding.elaborateText.text = it.elaborate
             }
 
-            activity?.toolbar_layout?.let { toolbar ->
-                toolbar.title = it.prettyDate()
-                it.colorInt().let { color ->
-                    if (color != 0) {
-                        toolbar.setBackgroundColor(color)
+            (activity as? SentimentDetailActivity)?.let { activity ->
+                activity.toolbarLayout.let { toolbar ->
+                    toolbar.title = it.prettyDate()
+                    it.colorInt().let { color ->
+                        if (color != 0) {
+                            toolbar.setBackgroundColor(color)
+                        }
                     }
                 }
             }
