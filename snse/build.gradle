@@ -36,10 +36,10 @@ dependencies {
     def lifecycle_version = '2.3.1'
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
-    def room_version = '2.2.6'
+    def room_version = '2.3.0'
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version" // use kapt for Kotlin
-    kapt 'androidx.room:room-compiler:2.2.6'
+    kapt "androidx.room:room-compiler:$room_version"
 }
 
 repositories {
