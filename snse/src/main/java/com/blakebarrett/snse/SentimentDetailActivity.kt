@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.blakebarrett.snse.databinding.ActivitySentimentDetailBinding
+import com.blakebarrett.snse.databinding.SentimentDetailBinding
 import com.blakebarrett.snse.db.AppDatabase
 import com.blakebarrett.snse.db.Sentiment
 import com.blakebarrett.snse.db.SentimentDAO
-import kotlinx.android.synthetic.main.activity_sentiment_detail.*
+import com.google.android.material.appbar.CollapsingToolbarLayout
 
 /**
  * An activity representing a single Sentiment detail screen. This
@@ -20,10 +22,21 @@ class SentimentDetailActivity(
     private var mSentiment: Sentiment? = null
 ) : AppCompatActivity() {
 
+    private lateinit var binding: SentimentDetailBinding
+    private lateinit var activityBinding: ActivitySentimentDetailBinding
+    val toolbarLayout: CollapsingToolbarLayout
+        get() {
+            return activityBinding.toolbarLayout
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sentiment_detail)
-        setSupportActionBar(detail_toolbar)
+        binding = SentimentDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        activityBinding = ActivitySentimentDetailBinding.inflate(layoutInflater).also {
+            setSupportActionBar(it.detailToolbar)
+        }
 
         // Show the Up button in the action bar.
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.blakebarrett.snse.databinding.ActivitySentimentListBinding
+import com.blakebarrett.snse.databinding.SentimentListBinding
+import com.blakebarrett.snse.databinding.SentimentListContentBinding
 import com.blakebarrett.snse.db.AppDatabase
 import com.blakebarrett.snse.db.Sentiment
-import kotlinx.android.synthetic.main.activity_sentiment_list.*
-import kotlinx.android.synthetic.main.sentiment_list.*
-import kotlinx.android.synthetic.main.sentiment_list_content.view.*
 
 /**
  * An activity representing a list of Pings. This activity
@@ -32,17 +32,25 @@ class SentimentListActivity : AppCompatActivity() {
     private var twoPane: Boolean = false
     private lateinit var sentiments: List<Sentiment>
 
+    private lateinit var binding: SentimentListBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sentiment_list)
 
-        setSupportActionBar(toolbar)
-        toolbar.title = title
+        ActivitySentimentListBinding.inflate(layoutInflater).also { activityBinding ->
+            setContentView(activityBinding.root)
+            activityBinding.toolbar.also {
+                it.title = title
+                setSupportActionBar(it)
+            }
+        }
+
+        binding = SentimentListBinding.inflate(layoutInflater)
 
         // Show the Up button in the action bar.
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        if (sentiment_detail_container != null) {
+        binding.sentimentDetailContainer?.let {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-w900dp).
             // If this view is present, then the
@@ -51,7 +59,7 @@ class SentimentListActivity : AppCompatActivity() {
         }
 
         sentiments = AppDatabase.getInstance(this.applicationContext).sentimentDao().getAll()
-        setupRecyclerView(sentiment_list)
+        setupRecyclerView(binding.sentimentList)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
@@ -72,7 +80,7 @@ class SentimentListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         sentiments = AppDatabase.getInstance(this.applicationContext).sentimentDao().getAll()
-        sentiment_list.adapter?.notifyDataSetChanged()
+        binding.sentimentList.adapter?.notifyDataSetChanged()
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
@@ -121,16 +129,12 @@ class SentimentListActivity : AppCompatActivity() {
             }
         }
 
+        private lateinit var sentimentListContentBinding: SentimentListContentBinding
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            return ViewHolder(
-                LayoutInflater
-                    .from(parent.context)
-                    .inflate(
-                        R.layout.sentiment_list_content,
-                        parent,
-                        false
-                    )
-            )
+            LayoutInflater.from(parent.context).also {
+                sentimentListContentBinding = SentimentListContentBinding.inflate(it)
+                return ViewHolder(sentimentListContentBinding.root)
+            }
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -148,10 +152,11 @@ class SentimentListActivity : AppCompatActivity() {
 
         override fun getItemCount() = values.size
 
+        // TODO: Wire these back up.
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val idView: TextView = view.id_text
-            val contentView: TextView = view.content
-            val backgroundView: View = view.id_background
+            val idView: TextView = TextView(parentActivity.baseContext) //view.id_text
+            val contentView: TextView = TextView(parentActivity.baseContext) //view.content
+            val backgroundView: View = View(parentActivity.baseContext) //view.id_background
         }
     }
 }
