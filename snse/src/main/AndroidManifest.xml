@@ -13,7 +13,7 @@
             android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
-            android:allowBackup="true"
+            android:fullBackupOnly="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
@@ -21,6 +21,7 @@
             android:theme="@style/AppTheme">
 
         <activity
+                android:exported="true"
                 android:name=".MainActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
@@ -44,6 +45,7 @@
             </intent-filter>
         </activity>
         <activity
+                android:exported="false"
                 android:name=".SentimentListActivity"
                 android:label="@string/title_sentiment_list"
                 android:parentActivityName=".MainActivity"
@@ -53,6 +55,7 @@
                     android:value="com.blakebarrett.snse.MainActivity"/>
         </activity>
         <activity
+                android:exported="true"
                 android:name=".SentimentDetailActivity"
                 android:label="@string/title_sentiment_detail"
                 android:parentActivityName=".SentimentListActivity"
@@ -62,6 +65,7 @@
                     android:value="com.blakebarrett.snse.SentimentListActivity"/>
         </activity>
         <activity
+                android:exported="false"
                 android:name=".SettingsActivity"
                 android:label="@string/action_settings"
                 android:parentActivityName=".MainActivity">
@@ -71,6 +75,7 @@
         </activity>
 
         <receiver
+                android:exported="false"
                 android:name=".utils.NotificationsBroadcastReceiver"
                 android:enabled="true">
             <intent-filter>
