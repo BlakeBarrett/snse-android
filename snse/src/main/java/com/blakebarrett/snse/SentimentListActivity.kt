@@ -11,9 +11,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.blakebarrett.snse.db.AppDatabase
 import com.blakebarrett.snse.db.Sentiment
-import kotlinx.android.synthetic.main.activity_sentiment_list.*
-import kotlinx.android.synthetic.main.sentiment_list.*
-import kotlinx.android.synthetic.main.sentiment_list_content.view.*
+import kotlinx.android.synthetic.main.activity_sentiment_list.toolbar
+import kotlinx.android.synthetic.main.sentiment_list.sentiment_detail_container
+import kotlinx.android.synthetic.main.sentiment_list.sentiment_list
+import kotlinx.android.synthetic.main.sentiment_list_content.view.content
+import kotlinx.android.synthetic.main.sentiment_list_content.view.id_background
+import kotlinx.android.synthetic.main.sentiment_list_content.view.id_text
 
 /**
  * An activity representing a list of Pings. This activity
@@ -66,6 +69,7 @@ class SentimentListActivity : AppCompatActivity() {
                 finish()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
 

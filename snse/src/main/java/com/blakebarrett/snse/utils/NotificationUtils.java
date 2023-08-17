@@ -40,7 +40,7 @@ public class NotificationUtils {
 
     public static void handleIntent(final Context context, final Intent intent) {
         final Bundle extras = intent.getExtras();
-        final String type = extras.getString(TYPE);
+        final String type = extras != null ? extras.getString(TYPE) : "";
         if (TWO_WEEK_REMINDER.equals(type)) {
             onShowReminderNotification(context);
         } else {
@@ -50,13 +50,13 @@ public class NotificationUtils {
 
     public static void scheduleAlarm(final Context context) {
         final PreferenceUtil manager = PreferenceUtil.getInstance(context);
-        final Boolean notificationsEnabled = manager.getBool(SettingsActivity.NotificationPreferenceFragment.NOTIFICATION_REMINDER);
+        final boolean notificationsEnabled = manager.getBool(SettingsActivity.NotificationPreferenceFragment.NOTIFICATION_REMINDER);
         final String notificationSchedule = manager.getString(SettingsActivity.NotificationPreferenceFragment.NOTIFICATION_FREQUENCY);
         final long interval = Long.parseLong((notificationSchedule.equals("")) ? "0" : notificationSchedule);
         final AlarmManager alarmManager = getAlarmManager(context);
 
         final Intent intent = new Intent(context.getApplicationContext(), NotificationsBroadcastReceiver.class);
-        final PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        final PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         if (!notificationsEnabled || (interval <= 0)) {
             if (alarmIntent != null) {
@@ -68,7 +68,7 @@ public class NotificationUtils {
         final Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 17);
-        calendar.set(Calendar.MINUTE, 00);
+        calendar.set(Calendar.MINUTE, 0);
 
         // With setInexactRepeating(), you have to use one of the AlarmManager interval
         // constants--in this case, AlarmManager.INTERVAL_DAY.
@@ -110,7 +110,7 @@ public class NotificationUtils {
         // Create an explicit intent for an Activity in your app
         final Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        return PendingIntent.getActivity(context, 0, intent, 0);
+        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
     }
 
     private static Notification getNotification(final Context context) {
@@ -133,11 +133,11 @@ public class NotificationUtils {
     public static void applicationDidLaunch(final Context context) {
         final PreferenceUtil prefs = PreferenceUtil.getInstance(context);
         // when was the last time the app was launched
-        final Long now = System.currentTimeMillis();
+        final long now = System.currentTimeMillis();
         prefs.savePref(APPLICATION_LAUNCH_TIME, now);
 
         // two weeks from now
-        final Long twoWeeksFromNow = now + TWO_WEEKS_WORTH_OF_MILLISECONDS;
+        final long twoWeeksFromNow = now + TWO_WEEKS_WORTH_OF_MILLISECONDS;
         prefs.savePref(TWO_WEEK_NOTIFICATION_TIME, twoWeeksFromNow);
         scheduleReminderNotification(context, twoWeeksFromNow);
     }
@@ -149,7 +149,7 @@ public class NotificationUtils {
                 context,
                 0,
                 intent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+                PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         final AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.setAndAllowWhileIdle(

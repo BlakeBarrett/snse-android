@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.blakebarrett.snse.db.AppDatabase
 import com.blakebarrett.snse.db.Sentiment
 import com.blakebarrett.snse.db.SentimentDAO
-import kotlinx.android.synthetic.main.activity_sentiment_detail.*
+import kotlinx.android.synthetic.main.activity_sentiment_detail.detail_toolbar
 
 /**
  * An activity representing a single Sentiment detail screen. This
@@ -85,12 +85,14 @@ class SentimentDetailActivity(
                 // http://developer.android.com/design/patterns/navigation.html#up-vs-back
                 finish()
             }
+
             R.id.action_delete -> {
                 mSentiment?.let {
                     delete(it)
                 }
                 finish()
             }
+
             else -> super.onOptionsItemSelected(item)
         }
         return true
