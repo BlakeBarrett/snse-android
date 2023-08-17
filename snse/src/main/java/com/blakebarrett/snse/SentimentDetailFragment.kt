@@ -7,8 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.blakebarrett.snse.db.AppDatabase
 import com.blakebarrett.snse.db.Sentiment
-import kotlinx.android.synthetic.main.activity_sentiment_detail.*
-import kotlinx.android.synthetic.main.sentiment_detail.*
+import kotlinx.android.synthetic.main.activity_sentiment_detail.toolbar_layout
+import kotlinx.android.synthetic.main.sentiment_detail.elaborateText
+import kotlinx.android.synthetic.main.sentiment_detail.elaborateTextParent
+import kotlinx.android.synthetic.main.sentiment_detail.feelingsDetailTextView
+import kotlinx.android.synthetic.main.sentiment_detail.feelingsDetailTextViewParent
+import kotlinx.android.synthetic.main.sentiment_detail.waterImageView
 import kotlin.math.max
 
 /**
@@ -62,11 +66,11 @@ class SentimentDetailFragment : Fragment() {
         }
     }
 
-    private val item : Sentiment?
+    private val item: Sentiment?
         get() {
             requireContext().applicationContext.let { context ->
                 arguments?.let {
-                    val sentinel : Long = -1337
+                    val sentinel: Long = -1337
                     val timestamp = it.getLong(ARG_ITEM_ID, sentinel)
                     if (timestamp != sentinel) {
                         AppDatabase

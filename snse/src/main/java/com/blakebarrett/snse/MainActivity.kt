@@ -20,10 +20,19 @@ import com.blakebarrett.snse.utils.NotificationUtils
 import com.blakebarrett.snse.utils.PreferenceUtil
 import com.github.danielnilsson9.colorpickerview.dialog.ColorPickerDialogFragment
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_scrolling.*
-import kotlinx.android.synthetic.main.content_scrolling.*
+import kotlinx.android.synthetic.main.activity_scrolling.collapsingToolbar
+import kotlinx.android.synthetic.main.activity_scrolling.fab
+import kotlinx.android.synthetic.main.activity_scrolling.toolbar
+import kotlinx.android.synthetic.main.content_scrolling.colorButton
+import kotlinx.android.synthetic.main.content_scrolling.elaborateText
+import kotlinx.android.synthetic.main.content_scrolling.feelingRadioGroup
+import kotlinx.android.synthetic.main.content_scrolling.intensityBar
+import kotlinx.android.synthetic.main.content_scrolling.radioHappy
+import kotlinx.android.synthetic.main.content_scrolling.radioMeh
+import kotlinx.android.synthetic.main.content_scrolling.radioSad
+import kotlinx.android.synthetic.main.content_scrolling.waterCheckBox
 
-class MainActivity (
+class MainActivity(
     private var mSelectedColor: Int = 0,
     private var mAuthenticated: Boolean = false
 ) : AppCompatActivity(), ColorPickerDialogFragment.ColorPickerDialogListener {

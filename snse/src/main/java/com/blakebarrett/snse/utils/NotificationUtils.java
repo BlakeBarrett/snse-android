@@ -40,7 +40,7 @@ public class NotificationUtils {
 
     public static void handleIntent(final Context context, final Intent intent) {
         final Bundle extras = intent.getExtras();
-        final String type = extras != null ? extras.getString(TYPE) : new String();
+        final String type = extras != null ? extras.getString(TYPE) : "";
         if (TWO_WEEK_REMINDER.equals(type)) {
             onShowReminderNotification(context);
         } else {
