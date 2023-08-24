@@ -10,6 +10,7 @@ import android.content.Intent
  */
 class NotificationService : IntentService("NotificationService") {
 
+    @Suppress("OverrideDeprecatedMigration")
     override fun onHandleIntent(intent: Intent?) {
         NotificationUtils.handleIntent(this.applicationContext, intent)
     }
